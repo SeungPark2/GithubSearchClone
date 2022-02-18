@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="130" id="g5e-O2-Bzi">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="RepositoryCell" rowHeight="130" id="g5e-O2-Bzi" customClass="RepositoryCell" customModule="GithubSearchClone" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g5e-O2-Bzi" id="Bdl-uv-4Vl">
@@ -28,7 +28,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="저장소명 / 소유자" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5I-tV-IfA">
-                                                    <rect key="frame" x="50" y="29.5" width="116.5" height="21"/>
+                                                    <rect key="frame" x="50" y="29.5" width="300" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -42,7 +42,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="소개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xah-QL-XCH">
-                                                    <rect key="frame" x="50" y="54.5" width="116.5" height="21"/>
+                                                    <rect key="frame" x="50" y="54.5" width="300" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -105,6 +105,7 @@
                                                 <constraint firstItem="Xah-QL-XCH" firstAttribute="top" secondItem="b5I-tV-IfA" secondAttribute="bottom" constant="4" id="RpF-JK-ouv"/>
                                                 <constraint firstItem="b5I-tV-IfA" firstAttribute="centerY" secondItem="xJ5-oU-yvc" secondAttribute="centerY" id="Vkd-0J-pdX"/>
                                                 <constraint firstItem="Xah-QL-XCH" firstAttribute="leading" secondItem="b5I-tV-IfA" secondAttribute="leading" id="b29-Bf-Cfj"/>
+                                                <constraint firstItem="jDS-EX-UrJ" firstAttribute="leading" secondItem="b5I-tV-IfA" secondAttribute="trailing" constant="4" id="bBq-Cv-QR7"/>
                                                 <constraint firstItem="eOt-8f-K7n" firstAttribute="leading" secondItem="Vn5-gZ-4sM" secondAttribute="trailing" constant="20" id="cfo-BU-443"/>
                                                 <constraint firstItem="Xah-QL-XCH" firstAttribute="trailing" secondItem="b5I-tV-IfA" secondAttribute="trailing" id="cwc-G9-i56"/>
                                                 <constraint firstItem="aGE-IC-4FU" firstAttribute="leading" secondItem="glg-pI-HlR" secondAttribute="trailing" constant="4" id="dK2-kP-p3M"/>
@@ -116,6 +117,14 @@
                                                 <constraint firstAttribute="trailing" secondItem="jDS-EX-UrJ" secondAttribute="trailing" constant="20" id="tTa-WJ-M6E"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="languageLabel" destination="Vn5-gZ-4sM" id="HwK-Ib-H0a"/>
+                                            <outlet property="licenseLabel" destination="eOt-8f-K7n" id="gvF-H8-y8l"/>
+                                            <outlet property="repositIntroLabel" destination="Xah-QL-XCH" id="oYh-Xo-LZz"/>
+                                            <outlet property="repositNameAndOwnerLabel" destination="b5I-tV-IfA" id="hok-Dl-hBo"/>
+                                            <outlet property="starCountLabel" destination="aGE-IC-4FU" id="49V-lP-jdT"/>
+                                            <outlet property="startButton" destination="jDS-EX-UrJ" id="gsh-UF-wVM"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

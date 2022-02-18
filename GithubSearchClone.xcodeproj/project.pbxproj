@@ -13,6 +13,8 @@
 		015A2CF327BF863E00252FA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015A2CF127BF863E00252FA0 /* Main.storyboard */; };
 		015A2CF527BF864000252FA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 015A2CF427BF864000252FA0 /* Assets.xcassets */; };
 		015A2CF827BF864000252FA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015A2CF627BF864000252FA0 /* LaunchScreen.storyboard */; };
+		015A2D0127BF878200252FA0 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0027BF878200252FA0 /* Repository.swift */; };
+		015A2D0427BF87A500252FA0 /* DefaultEmptyString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0327BF87A500252FA0 /* DefaultEmptyString.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,8 @@
 		015A2CF427BF864000252FA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		015A2CF727BF864000252FA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		015A2CF927BF864000252FA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		015A2D0027BF878200252FA0 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		015A2D0327BF87A500252FA0 /* DefaultEmptyString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEmptyString.swift; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -71,15 +75,57 @@
 		015A2CEA27BF863E00252FA0 /* GithubSearchClone */ = {
 			isa = PBXGroup;
 			children = (
-				015A2CEB27BF863E00252FA0 /* AppDelegate.swift */,
+				015A2CFF27BF877400252FA0 /* Model */,
+				015A2D0227BF879500252FA0 /* Extension */,
+				015A2D0627BF87C500252FA0 /* Search */,
+				015A2D0727BF87D500252FA0 /* Profile */,
+				015A2D0527BF87B300252FA0 /* Storyboard */,
 				015A2CED27BF863E00252FA0 /* SceneDelegate.swift */,
-				015A2CEF27BF863E00252FA0 /* ViewController.swift */,
-				015A2CF127BF863E00252FA0 /* Main.storyboard */,
+				015A2CEB27BF863E00252FA0 /* AppDelegate.swift */,
 				015A2CF427BF864000252FA0 /* Assets.xcassets */,
-				015A2CF627BF864000252FA0 /* LaunchScreen.storyboard */,
 				015A2CF927BF864000252FA0 /* Info.plist */,
 			);
 			path = GithubSearchClone;
+			sourceTree = "<group>";
+		};
+		015A2CFF27BF877400252FA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				015A2D0027BF878200252FA0 /* Repository.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		015A2D0227BF879500252FA0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				015A2D0327BF87A500252FA0 /* DefaultEmptyString.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
+		015A2D0527BF87B300252FA0 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				015A2CF127BF863E00252FA0 /* Main.storyboard */,
+				015A2CF627BF864000252FA0 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		015A2D0627BF87C500252FA0 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				015A2CEF27BF863E00252FA0 /* ViewController.swift */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		015A2D0727BF87D500252FA0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		6C96D2B592D9BE4A5B4C7C49 /* Pods */ = {
@@ -88,7 +134,6 @@
 				D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */,
 				5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -210,6 +255,8 @@
 				015A2CF027BF863E00252FA0 /* ViewController.swift in Sources */,
 				015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */,
 				015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */,
+				015A2D0127BF878200252FA0 /* Repository.swift in Sources */,
+				015A2D0427BF87A500252FA0 /* DefaultEmptyString.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,8 @@
 PODS:
   - Differentiator (5.0.0)
+  - ReactorKit (3.2.0):
+    - RxSwift (~> 6.0)
+    - WeakMapTable (~> 1.1)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -10,8 +13,10 @@ PODS:
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
+  - ReactorKit
   - RxCocoa (~> 6.5.0)
   - RxDataSources (~> 5.0)
   - RxSwift (~> 6.5.0)
@@ -19,18 +24,22 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Differentiator
+    - ReactorKit
     - RxCocoa
     - RxDataSources
     - RxRelay
     - RxSwift
+    - WeakMapTable
 
 SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: a91ae3b4629cb96e6994e5e8652662d120eac6a5
+PODFILE CHECKSUM: a3a791d29675fe8d62579adcaf2c2e5d894a2f10
 
 COCOAPODS: 1.11.2

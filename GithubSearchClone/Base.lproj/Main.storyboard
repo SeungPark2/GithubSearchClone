@@ -11,7 +11,7 @@
         <!--GitHub-->
         <scene sceneID="TRu-2F-Vc7">
             <objects>
-                <viewController id="d09-Jf-oLd" customClass="ViewController" customModule="GithubSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RepositoryListVC" id="d09-Jf-oLd" customClass="RepositoryListVC" customModule="GithubSearchClone" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A82-Ez-r91">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -143,6 +143,10 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="loginButton" destination="czn-2o-BeE" id="j9y-kT-XUs"/>
+                        <outlet property="repositoryTableView" destination="Sdu-Ps-aBp" id="d6f-96-0LZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bkx-3P-omU" sceneMemberID="firstResponder"/>
             </objects>

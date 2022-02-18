@@ -17,6 +17,7 @@
 		015A2D0427BF87A500252FA0 /* DefaultEmptyString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0327BF87A500252FA0 /* DefaultEmptyString.swift */; };
 		015A2D0927BF882400252FA0 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0827BF882400252FA0 /* Array+Extension.swift */; };
 		015A2D0B27BF886E00252FA0 /* RepositoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0A27BF886E00252FA0 /* RepositoryCell.swift */; };
+		015A2D0D27BF8C1400252FA0 /* RepositoryReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D0C27BF8C1400252FA0 /* RepositoryReactor.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		015A2D0327BF87A500252FA0 /* DefaultEmptyString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEmptyString.swift; sourceTree = "<group>"; };
 		015A2D0827BF882400252FA0 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		015A2D0A27BF886E00252FA0 /* RepositoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCell.swift; sourceTree = "<group>"; };
+		015A2D0C27BF8C1400252FA0 /* RepositoryReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryReactor.swift; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				015A2CEF27BF863E00252FA0 /* RepositoryListVC.swift */,
+				015A2D0C27BF8C1400252FA0 /* RepositoryReactor.swift */,
 				015A2D0A27BF886E00252FA0 /* RepositoryCell.swift */,
 			);
 			name = Repository;
@@ -260,6 +263,7 @@
 			files = (
 				015A2CF027BF863E00252FA0 /* RepositoryListVC.swift in Sources */,
 				015A2D0B27BF886E00252FA0 /* RepositoryCell.swift in Sources */,
+				015A2D0D27BF8C1400252FA0 /* RepositoryReactor.swift in Sources */,
 				015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */,
 				015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */,
 				015A2D0927BF882400252FA0 /* Array+Extension.swift in Sources */,

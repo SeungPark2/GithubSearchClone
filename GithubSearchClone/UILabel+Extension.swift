@@ -40,4 +40,35 @@ extension UILabel {
         
         self.attributedText = attributedString
     }
+    
+    // MARK: -- Builder
+    static func create() -> UILabel {
+                
+        return UILabel()
+    }
+    
+    func withText(_ text: String?) -> UILabel {
+        
+        self.text = text
+        return self
+    }
+    
+    func withTextColor(_ color: UIColor) -> UILabel {
+
+        self.textColor = color
+        return self
+    }
+    
+    func withFont(_ font: UIFont) -> UILabel {
+        
+        self.font = font
+        return self
+    }
+    
+    func withAlignment(_ alignment: NSTextAlignment) -> UILabel {
+        
+        self.textAlignment = alignment
+        return self
+    }
+
 }

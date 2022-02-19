@@ -58,9 +58,11 @@ extension Network {
                                               message: nil))
         }
         
-        return requestDataTask(request: self.createURLRequest(url: url,
-                                                              httpMethod: .get),
-                               params: query)
+        let request = self.createURLRequest(url: url,
+                                            httpMethod: .get)
+        
+        return self.requestDataTask(request: request,
+                                    params: query)
     }
     
     func requestPost(with endPoint: String,
@@ -86,8 +88,8 @@ extension Network {
             return .error(error)
         }
         
-        return requestDataTask(request: request,
-                               params: params)
+        return self.requestDataTask(request: request,
+                                    params: params)
     }
     
     private func createURLRequest(url: URL,
@@ -103,7 +105,7 @@ extension Network {
         
         if let apiToken = UserInfo.shared.apiToken {
             
-            request.setValue("Bearer \(apiToken)",
+            request.setValue("access_token \(apiToken)",
                              forHTTPHeaderField: "Authorization")
         }
         

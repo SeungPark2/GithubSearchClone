@@ -28,6 +28,8 @@
 		015A2D2527C0885900252FA0 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D2427C0885900252FA0 /* UILabel+Extension.swift */; };
 		015A2D2727C088EC00252FA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D2627C088EC00252FA0 /* UIViewController+Extension.swift */; };
 		015A2D2927C0F57500252FA0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D2827C0F57500252FA0 /* ProfileVC.swift */; };
+		015A2D2B27C0FEA200252FA0 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D2A27C0FEA200252FA0 /* ProfileVM.swift */; };
+		015A2D2F27C1078300252FA0 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D2E27C1078300252FA0 /* UIButton+Extension.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,8 @@
 		015A2D2427C0885900252FA0 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		015A2D2627C088EC00252FA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		015A2D2827C0F57500252FA0 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		015A2D2A27C0FEA200252FA0 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
+		015A2D2E27C1078300252FA0 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				015A2D2227BFD35F00252FA0 /* Int+Extension.swift */,
 				015A2D2427C0885900252FA0 /* UILabel+Extension.swift */,
 				015A2D2627C088EC00252FA0 /* UIViewController+Extension.swift */,
+				015A2D2E27C1078300252FA0 /* UIButton+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				015A2D2827C0F57500252FA0 /* ProfileVC.swift */,
+				015A2D2A27C0FEA200252FA0 /* ProfileVM.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -317,6 +323,8 @@
 				015A2D0427BF87A500252FA0 /* DefaultEmptyString.swift in Sources */,
 				015A2D1427BF92EA00252FA0 /* UserInfo.swift in Sources */,
 				015A2D1227BF902700252FA0 /* Prefix.swift in Sources */,
+				015A2D2B27C0FEA200252FA0 /* ProfileVM.swift in Sources */,
+				015A2D2F27C1078300252FA0 /* UIButton+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +477,7 @@
 				DEVELOPMENT_TEAM = D976LJQ8XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubSearchClone/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "깃헙클론";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -498,6 +507,7 @@
 				DEVELOPMENT_TEAM = D976LJQ8XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubSearchClone/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "깃헙클론";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

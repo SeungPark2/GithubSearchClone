@@ -34,6 +34,18 @@ class RepositoryListVC: UIViewController {
     
     // MARK: -- Private Method
     
+    private func webView() {
+        
+        let scope = "repo,user"
+        let urlString = "https://github.com/login/oauth/authorize?client_id=\("")&scope=\(scope)"
+        
+        if let url = URL(string: urlString),
+           UIApplication.shared.canOpenURL(url) {
+            
+            UIApplication.shared.open(url)
+        }
+    }
+    
     // MARK: -- Private Properties
     
     private lazy var searchController: UISearchController = {
@@ -126,6 +138,12 @@ extension RepositoryListVC {
     
     private func bindAction(with viewModel: RepositoryListVMProtocol) {
         
+        self.loginButton?.rx.tap
+            .bind { [weak self] in
+                self?.webView()
+            }
+            .disposed(by: self.disposeBag)
+        
         self.searchController.searchBar.rx.text
             .map { $0 ?? "" }
             .filter { $0 != "" && !viewModel.isHideFullNames.value }
@@ -192,7 +210,7 @@ extension RepositoryListVC {
                 guard let `self` = self else { return false }
                 guard self.repositoryTableView.frame.height > 0 else { return false }
                 
-                return (offset.y + self.repositoryTableView.frame.height >=
+                return offset.y + self.repositoryTableView.frame.height >=
                        self.repositoryTableView.contentSize.height + 50
             }
             .bind { _ in viewModel.requestRepo() }

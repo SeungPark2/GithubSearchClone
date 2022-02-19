@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct Repositories: Codable {
+    
+    let totalCount: Int?
+    let items: [Repository]
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case totalCount = "total_count"
+        case items
+    }
+}
+
 struct Repository: Codable {
     
     let id: Int?
@@ -24,32 +36,18 @@ struct Repository: Codable {
         case starCount = "stargazers_count"
         case introduce = "description"
     }
-    
-//    func languageColor() -> String {
-//
-//        switch self.language {
-//
-//            case "Swift":        return "Orange"
-//            case "Objective-C":  return "Blue"
-//            case "C":            return "Blue"
-//            case "C++":          return "Pink"
-//            case "C#":           return "Green"
-//            case "Python":       return "Blue"
-//            case "JavaScript":   return "Yellow"
-//            case "Java":         return "Blue"
-//            case "HTML":         return "Blue"
-//            case "Ruby":         return "Red"
-//            case "Shell":        return "Blue"
-//
-//        default: ""
-//        }
-//    }
 }
 
 struct Owner: Codable {
     
     @DefaultEmptyString var name: String
     let id: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case name = "login"
+        case id
+    }
 }
 
 struct License: Codable {

@@ -5,7 +5,7 @@
 //  Created by 박승태 on 2022/02/18.
 //
 
-import Foundation
+import UIKit
 
 class UserInfo {
     
@@ -15,22 +15,34 @@ class UserInfo {
     private var _apiToken: String? = nil 
     
     var apiToken: String? {
-        get { return self._apiToken }
+        get { return try? self._apiToken?.aesDecrypt128() }
         set { self._apiToken = newValue }
     }
     
     var code: String = ""
     
-    // Image Site: https://icons8.com/icons
-    
     func requestGithubCode() {
         
+        let scope = "repo,user"
         
+        let urlString = Server.github +
+                        Root.login +
+                        Root.oauth +
+                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
+        
+        if let url = URL(string: urlString),
+           UIApplication.shared.canOpenURL(url) {
+            
+            UIApplication.shared.open(url)
+        }
     }
     
     func requestAPIToken(code: String) {
         
-        guard let url = URL(string: "https://github.com/login/oauth/access_token") else {
+        guard let url = URL(string: Server.github +
+                                    Root.login +
+                                    Root.oauth +
+                                    EndPoint.access_token) else {
             
             return
         }
@@ -55,7 +67,7 @@ class UserInfo {
         }
         catch {
             
-            print("err \(error.localizedDescription)")
+            print(error.localizedDescription)
         }
                 
         URLSession.shared.dataTask(with: request) {
@@ -64,15 +76,16 @@ class UserInfo {
             
             guard let data = data else {
                 
-                print("!!! \(error?.localizedDescription ?? "")")
+                print(error?.localizedDescription)
                 return
             }
             
             let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             
+            print("statusCode \((response as? HTTPURLResponse)?.statusCode)")
             print("json \(json ?? [:])")
             
-            self._apiToken = (json?["accss_token"] as? String) ?? ""
+            self._apiToken = try? ((json?["accss_token"] as? String) ?? "").aesEncrypt128()
             
         }.resume()
         

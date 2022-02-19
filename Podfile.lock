@@ -1,4 +1,5 @@
 PODS:
+  - CryptoSwift (1.4.3)
   - Differentiator (5.0.0)
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
@@ -16,6 +17,7 @@ PODS:
   - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
+  - CryptoSwift
   - ReactorKit
   - RxCocoa (~> 6.5.0)
   - RxDataSources (~> 5.0)
@@ -23,6 +25,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - CryptoSwift
     - Differentiator
     - ReactorKit
     - RxCocoa
@@ -32,6 +35,7 @@ SPEC REPOS:
     - WeakMapTable
 
 SPEC CHECKSUMS:
+  CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
@@ -40,6 +44,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: a3a791d29675fe8d62579adcaf2c2e5d894a2f10
+PODFILE CHECKSUM: 096d2e10553d7cd6d545df4e08db1a32e5b2fff5
 
 COCOAPODS: 1.11.2

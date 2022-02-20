@@ -28,11 +28,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             print(url)
             
-            UserInfo.shared.code = url.description.components(separatedBy: "=").last ?? ""
+            let code = url.description.components(separatedBy: "=").last ?? ""
 
-            print(UserInfo.shared.code)
+            print(code)
             
-            UserInfo.shared.requestAPIToken(code: UserInfo.shared.code)
+            UserInfo.shared.requestAPIToken(code: code)
         }
     }
 

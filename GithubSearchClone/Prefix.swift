@@ -18,11 +18,13 @@ struct Root {
     static let search = "/search"
     static let login  = "/login"
     static let oauth  = "/oauth"
+    static let user   = "/user"
 }
 
 struct EndPoint {
     
     static let repositories = "/repositories"
     static let authorize    = "/authorize"
-    static let access_token = "/access_token"
+    static let accessToken  = "/access_token"
+    static let startList    = "/starred"
 }

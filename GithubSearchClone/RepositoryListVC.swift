@@ -19,8 +19,21 @@ class RepositoryListVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        bindState(with: self.viewModel)
-        bindAction(with: self.viewModel)
+        self.naviAndTabbar()
+        
+        self.bindState(with: self.viewModel)
+        self.bindAction(with: self.viewModel)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.updateUI()
+    }
+    
+    // MARK: -- Private Method
+    
+    private func naviAndTabbar() {
         
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),
@@ -29,21 +42,13 @@ class RepositoryListVC: UIViewController {
         
         self.tabBarController?.tabBar.isTranslucent = true
         self.tabBarController?.tabBar.backgroundImage = UIImage()
-        self.tabBarController?.tabBar.shadowImage = UIImage()
+        self.tabBarController?.tabBar.shadowImage = UIImage()                
     }
     
-    // MARK: -- Private Method
-    
-    private func webView() {
+    private func updateUI() {
         
-        let scope = "repo,user"
-        let urlString = "https://github.com/login/oauth/authorize?client_id=\("")&scope=\(scope)"
-        
-        if let url = URL(string: urlString),
-           UIApplication.shared.canOpenURL(url) {
-            
-            UIApplication.shared.open(url)
-        }
+        self.loginButton?.title = UserInfo.shared.apiToken == "" ?
+                                  "로그인" : "로그아웃"
     }
     
     // MARK: -- Private Properties
@@ -139,9 +144,7 @@ extension RepositoryListVC {
     private func bindAction(with viewModel: RepositoryListVMProtocol) {
         
         self.loginButton?.rx.tap
-            .bind { [weak self] in
-                self?.webView()
-            }
+            .bind { UserInfo.shared.checkAPIToken() }
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.text

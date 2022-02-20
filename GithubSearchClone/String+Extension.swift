@@ -51,6 +51,8 @@ extension String {
             let bytes = datas!.bytes
             let decode = try enc.decrypt(bytes)
             
+            String(data: datas!, encoding: .utf8)
+            
             return String(bytes: decode, encoding: .utf8) ?? ""
             
         }

@@ -13,8 +13,9 @@ protocol NetworkProtocol {
     func requestGet(with endPoint: String,
                     query: [String: Any]?) -> Observable<Data>
     
-    func requestPost(with endPoint: String,
-                     params: [String: Any]) -> Observable<Data>
+    func requestBody(with endPoint: String,
+                     params: [String: Any],
+                     httpMethod: Network.HttpMethod) -> Observable<Data>
 }
 
 class Network: NetworkProtocol {
@@ -33,6 +34,7 @@ class Network: NetworkProtocol {
     enum NetworkError: Error {
         
         case invalidToken
+        case accessDenied
         case failed(errCode: Int?, message: String?)
         case serverNotConnected
     }
@@ -65,8 +67,9 @@ extension Network {
                                     params: query)
     }
     
-    func requestPost(with endPoint: String,
-                     params: [String : Any]) -> Observable<Data> {
+    func requestBody(with endPoint: String,
+                     params: [String : Any],
+                     httpMethod: HttpMethod) -> Observable<Data> {
         
         guard let url = URL(string: Server.url + endPoint) else {
             
@@ -103,9 +106,9 @@ extension Network {
         request.setValue("application/json;charset=UTF-8",
                          forHTTPHeaderField: "Content-Type")
         
-        if let apiToken = UserInfo.shared.apiToken {
+        if UserInfo.shared.apiToken != "" {
             
-            request.setValue("access_token \(apiToken)",
+            request.setValue("Bearer \(UserInfo.shared.apiToken)",
                              forHTTPHeaderField: "Authorization")
         }
         
@@ -141,6 +144,11 @@ extension Network {
                     throw NetworkError.invalidToken
                 }
                 
+                if response.statusCode == 403 {
+                    
+                    throw NetworkError.accessDenied
+                }
+                
                 throw NetworkError.failed(errCode: response.statusCode,
                                           message: "")
             }
@@ -156,6 +164,10 @@ extension Network.NetworkError {
             case .invalidToken:
                 
                 return "로그인 후 시도해주세요."
+            
+            case .accessDenied:
+            
+                return "해당 페이지에 접근이 허용되지 않았습니다."
                 
             case .failed(_, _):
                 

@@ -7,14 +7,21 @@
 
 import UIKit
 
+protocol RepoStarDelegate: AnyObject {
+    
+    func didTapStar(with index: Int)
+}
+
 class RepositoryCell: UITableViewCell {
     
     static let identifier: String = "RepositoryCell"
     
-    func updateUI(repository: Repository) {
+    weak var repoStarDelegate: RepoStarDelegate?
+    
+    func updateUI(repository: Repository, index: Int) {
         
         self.repoNameAndOwnerLabel?.text = "\(repository.owner.name)/" +
-                                              "\(repository.name)"
+                                           "\(repository.name)"
         self.repoNameAndOwnerLabel?.changeTextColorAndFont(
             changeTexts: [repository.name],
             colors: [nil],
@@ -26,12 +33,26 @@ class RepositoryCell: UITableViewCell {
         self.languageColorView?.backgroundColor = UIColor.colorBy(language: repository.language)
         self.languageLabel?.text = repository.language
         self.licenseLabel?.text = repository.license.name
+        
+        self.index = index
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.languageColorView?.cornerRound()
+    }
+    
+    private var index: Int? = nil
+    
+    @IBAction private func didTapStar(_ sender: UIButton) {
+        
+        guard let index = index else {
+            
+            return
+        }
+        
+        self.repoStarDelegate?.didTapStar(with: index)
     }
     
     @IBOutlet private weak var repoNameAndOwnerLabel: UILabel?

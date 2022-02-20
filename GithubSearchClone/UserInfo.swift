@@ -10,31 +10,26 @@ import UIKit
 class UserInfo {
     
     static let shared: UserInfo = UserInfo()
-    private init() { }
-    
-    private var _apiToken: String? = nil 
-    
-    var apiToken: String? {
-        get { return try? self._apiToken?.aesDecrypt128() }
-        set { self._apiToken = newValue }
+    private init() {
+        
+        self._apiToken = UserDefaults.standard.string(forKey: self.apiTokenKey)
     }
     
-    var code: String = ""
+    var apiToken: String {
+        
+        get { return self._apiToken ?? "" }
+    }
     
-    func requestGithubCode() {
+    func checkAPIToken() {
         
-        let scope = "repo,user"
-        
-        let urlString = Server.github +
-                        Root.login +
-                        Root.oauth +
-                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
-        
-        if let url = URL(string: urlString),
-           UIApplication.shared.canOpenURL(url) {
+        if self.apiToken == "" {
             
-            UIApplication.shared.open(url)
+            self.requestGithubCode()
+            return
         }
+        
+        self.logout()
+        UIApplication.topViewController()?.viewWillAppear(true)
     }
     
     func requestAPIToken(code: String) {
@@ -42,7 +37,7 @@ class UserInfo {
         guard let url = URL(string: Server.github +
                                     Root.login +
                                     Root.oauth +
-                                    EndPoint.access_token) else {
+                                    EndPoint.accessToken) else {
             
             return
         }
@@ -56,8 +51,8 @@ class UserInfo {
         request.allHTTPHeaderFields?.updateValue("application/vnd.github.v3+json",
                                                  forKey: "Accept")
         
-        let param = ["client_id": "",
-                     "client_secret": "",
+        let param = ["client_id": "3669b2d1f5122ce49bbe",
+                     "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
                      "code": code]
         
         do {
@@ -72,7 +67,7 @@ class UserInfo {
                 
         URLSession.shared.dataTask(with: request) {
             
-            data, response, error in
+            [weak self] data, response, error in
             
             guard let data = data else {
                 
@@ -85,9 +80,43 @@ class UserInfo {
             print("statusCode \((response as? HTTPURLResponse)?.statusCode)")
             print("json \(json ?? [:])")
             
-            self._apiToken = try? ((json?["accss_token"] as? String) ?? "").aesEncrypt128()
+            self?._apiToken = (json?["access_token"] as? String) ?? ""
+            UserDefaults.standard.setValue(self?._apiToken,
+                                           forKey: self?.apiTokenKey ?? "")
+            
+            DispatchQueue.main.async {
+            
+                let vc = UIApplication.topViewController()
+                
+                vc?.viewWillAppear(true)
+            }
             
         }.resume()
-        
     }
+    
+    private func logout() {
+        
+        self._apiToken = nil
+        UserDefaults.standard.setValue(nil,
+                                       forKey: self.apiTokenKey)
+    }
+    
+    private func requestGithubCode() {
+        
+        let scope = "repo,user"
+        
+        let urlString = Server.github +
+                        Root.login +
+                        Root.oauth +
+                        EndPoint.authorize + "?client_id=\("3669b2d1f5122ce49bbe")&scope=\(scope)"
+        
+        if let url = URL(string: urlString),
+           UIApplication.shared.canOpenURL(url) {
+            
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    private var _apiToken: String? = nil
+    private let apiTokenKey: String = "apiTokenKey"
 }

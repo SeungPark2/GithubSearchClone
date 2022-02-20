@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import Kingfisher
 
 class ProfileVC: UIViewController {
     
@@ -20,6 +21,7 @@ class ProfileVC: UIViewController {
         self.bindAction(viewModel: self.viewModel)
         
         self.loginButton?.cornerRound(radius: 4)
+        self.userImageView?.cornerRound()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +56,17 @@ class ProfileVC: UIViewController {
         self.starRepoTableView?.isHidden = UserInfo.shared.apiToken == ""
     }
     
+    private func downloadImage(with imageURL: String) {
+        
+        KF.url(URL(string: imageURL))
+            .loadDiskFileSynchronously()
+            .cacheMemoryOnly()
+            .fade(duration: 0.25)
+            .onSuccess { result in print(result) }
+            .onFailure { error in print(error) }
+            .set(to: self.userImageView!)
+    }
+    
     private let viewModel: ProfileVMProtocol = ProfileVM()
     private let disposeBag = DisposeBag()
     
@@ -82,12 +95,13 @@ extension ProfileVC {
             }
             .disposed(by: self.disposeBag)
         
-//        viewModel.userName
-//            .bind { [weak self] in
-//
-//                self?.userNameLabel?.text = $0
-//            }
-//            .disposed(by: self.disposeBag)
+        viewModel.userImageURL
+            .filter { $0 != "" }
+            .bind { [weak self] in
+
+                self?.downloadImage(with: $0)
+            }
+            .disposed(by: self.disposeBag)
         
         viewModel.userCompany
             .map { $0 == "" ? "없음" : $0 }
@@ -122,6 +136,10 @@ extension ProfileVC {
     private func bindAction(viewModel: ProfileVMProtocol) {
         
         self.loginBarButton?.rx.tap
+            .bind { UserInfo.shared.checkAPIToken() }
+            .disposed(by: self.disposeBag)
+        
+        self.loginButton?.rx.tap
             .bind { UserInfo.shared.checkAPIToken() }
             .disposed(by: self.disposeBag)
     }

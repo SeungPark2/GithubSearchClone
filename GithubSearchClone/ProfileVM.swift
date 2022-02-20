@@ -15,7 +15,7 @@ protocol ProfileVMProtocol {
     
     var userName: BehaviorRelay<String> { get }
     var userCompany: BehaviorRelay<String> { get }
-    var userProfileImage: BehaviorRelay<String> { get }
+    var userImageURL: BehaviorRelay<String> { get }
     var userFollowers: BehaviorRelay<Int> { get }
     var userFollowing: BehaviorRelay<Int> { get }
     
@@ -33,7 +33,7 @@ class ProfileVM: ProfileVMProtocol {
     
     var userName = BehaviorRelay<String>(value: "")
     var userCompany = BehaviorRelay<String>(value: "")
-    var userProfileImage = BehaviorRelay<String>(value: "")
+    var userImageURL = BehaviorRelay<String>(value: "")
     var userFollowers = BehaviorRelay<Int>(value: 0)
     var userFollowing = BehaviorRelay<Int>(value: 0)
     
@@ -51,7 +51,7 @@ class ProfileVM: ProfileVMProtocol {
                 .subscribe(
                     onNext: { [weak self] userInfo in
                         
-                        self?.userProfileImage.accept(userInfo.imageURL)
+                        self?.userImageURL.accept(userInfo.imageURL)
                         self?.userName.accept(userInfo.name)
                         self?.userCompany.accept(userInfo.company)
                         

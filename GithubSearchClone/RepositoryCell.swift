@@ -43,8 +43,6 @@ class RepositoryCell: UITableViewCell {
         self.languageColorView?.cornerRound()
     }
     
-    private var index: Int? = nil
-    
     @IBAction private func didTapStar(_ sender: UIButton) {
         
         guard let index = index else {
@@ -54,6 +52,8 @@ class RepositoryCell: UITableViewCell {
         
         self.repoStarDelegate?.didTapStar(with: index)
     }
+    
+    private var index: Int? = nil
     
     @IBOutlet private weak var repoNameAndOwnerLabel: UILabel?
     @IBOutlet private weak var repoIntroLabel: UILabel?

@@ -112,7 +112,9 @@ extension ProfileVC {
                 
                 index, item, cell in
                 
-                cell.updateUI(repository: item)
+                cell.updateUI(repository: item,
+                              index: index)
+                cell.repoStarDelegate = self
             }
             .disposed(by: self.disposeBag)
     }
@@ -122,5 +124,13 @@ extension ProfileVC {
         self.loginBarButton?.rx.tap
             .bind { UserInfo.shared.checkAPIToken() }
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension ProfileVC: RepoStarDelegate {
+    
+    func didTapStar(with index: Int) {
+        
+        self.viewModel.requestDeleteStar(At: index)
     }
 }

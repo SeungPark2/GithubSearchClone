@@ -78,7 +78,7 @@ extension Network {
         }
         
         var request = self.createURLRequest(url: url,
-                                            httpMethod: .post)
+                                            httpMethod: httpMethod)
         
         do {
             

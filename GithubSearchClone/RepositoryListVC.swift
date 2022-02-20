@@ -122,7 +122,8 @@ extension RepositoryListVC {
                 
                 index, item, cell in
                 
-                cell.updateUI(repository: item)
+                cell.updateUI(repository: item,
+                              index: index)
             }
             .disposed(by: self.disposeBag)
         
@@ -218,5 +219,13 @@ extension RepositoryListVC {
             }
             .bind { _ in viewModel.requestRepo() }
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension RepositoryListVC: RepoStarDelegate {
+    
+    func didTapStar(with index: Int) {
+        
+        
     }
 }

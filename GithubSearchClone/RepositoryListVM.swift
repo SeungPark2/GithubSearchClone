@@ -18,7 +18,6 @@ protocol RepositoryListVMProtocol {
     
     var isHideFullNames: BehaviorRelay<Bool> { get }
     
-    func requestLogin()
     func typingWords(with searchWord: String)
     func didTapFullName(with fullName: String)
     func requestFullName()
@@ -34,11 +33,6 @@ class RepositoryListVM: RepositoryListVMProtocol {
     var fullNames = BehaviorRelay<[FullName]>(value: [])
     
     var isHideFullNames = BehaviorRelay<Bool>(value: true)
-    
-    func requestLogin() {
-        
-        
-    }
     
     func typingWords(with searchWord: String) {
         
@@ -159,6 +153,17 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     self?.isLoadingRepoNextPage = false
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    func requestStar(with index: Int) {
+        
+        if UserInfo.shared.apiToken == "" {
+            
+            self.errMsg.accept("로그인 후 이용해주세요.")
+            return
+        }
+        
+        
     }
     
     private var searchWord: String = ""

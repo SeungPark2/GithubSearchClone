@@ -125,7 +125,7 @@ class ProfileVM: ProfileVMProtocol {
         
         Network.shared.requestBody(with: Root.user +
                                          EndPoint.startList +
-                                        "\(self.userName)/\(repoName)",
+                                         "/\(self.userName.value)/\(repoName)",
                                    params: [:],
                                    httpMethod: .delete)
             .subscribe(

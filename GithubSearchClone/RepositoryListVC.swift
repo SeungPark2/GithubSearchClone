@@ -15,6 +15,8 @@ class RepositoryListVC: UIViewController {
     
     // MARK: -- Public Method
     
+    // MARK: -- Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -51,6 +53,16 @@ class RepositoryListVC: UIViewController {
                                   "로그인" : "로그아웃"
     }
     
+    private func updateRepoEmptyTitle(with repos: [Any]?) {
+        
+        self.repoEmptyLabel?.isHidden = !(repos?.count == 0)
+        
+        if repos?.count == 0 {
+            
+            self.repoEmptyLabel?.text = ErrorMessage.resultEmpty
+        }
+    }
+    
     // MARK: -- Private Properties
     
     private lazy var searchController: UISearchController = {
@@ -77,7 +89,7 @@ class RepositoryListVC: UIViewController {
     @IBOutlet private var repositoryTableView: UITableView!
     @IBOutlet private var fullNameTableView: UITableView!
     
-    @IBOutlet private weak var reposiEmptyLabel: UILabel?
+    @IBOutlet private weak var repoEmptyLabel: UILabel?
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView?
 }
 
@@ -107,6 +119,7 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         viewModel.isHideFullNames
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 
                 self?.fullNameTableView.isHidden = $0
@@ -114,6 +127,14 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         viewModel.repositories
+            .observe(on: MainScheduler.instance)
+            .map { repos -> [Repository]? in
+
+                self.updateRepoEmptyTitle(with: repos)
+                return repos
+            }
+            .filter { $0 != nil }
+            .map { $0 ?? [] }
             .bind(to: self.repositoryTableView.rx.items(
                         cellIdentifier: RepositoryCell.identifier,
                         cellType: RepositoryCell.self
@@ -128,6 +149,15 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         viewModel.fullNames
+            .observe(on: MainScheduler.instance)
+            .map { names -> [FullName]? in
+
+                self.updateRepoEmptyTitle(with: names)
+                return names
+            }
+            .filter { $0 != nil }
+            .map { $0 ?? [] }
+            .observe(on: MainScheduler.instance)
             .bind(to: self.fullNameTableView.rx.items(
                         cellIdentifier: "FullNameCell"
                       )
@@ -149,6 +179,7 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.text
+            .distinctUntilChanged()
             .map { $0 ?? "" }
             .filter { $0 != "" && !viewModel.isHideFullNames.value }
             .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
@@ -164,25 +195,22 @@ extension RepositoryListVC {
                 
                 return self?.searchController.searchBar.searchTextField.text ?? ""
             }
-            .bind { viewModel.didTapFullName(with: $0)
-                    viewModel.isHideFullNames.accept(true) }
+            .bind { viewModel.search(with: $0) }
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.cancelButtonClicked
-            .bind { viewModel.didTapFullName(with: "")
-                    viewModel.isHideFullNames.accept(true) }
+            .bind { viewModel.resetFullNames() }
             .disposed(by: self.disposeBag)
         
         self.fullNameTableView.rx.itemSelected
             .map { $0.row }
-            .map { viewModel.fullNames.value[safe: $0]?.fullName ?? "" }
+            .map { viewModel.fullNames.value?[safe: $0]?.fullName ?? "" }
             .filter { $0 != "" }
             .bind { [weak self] in
                 
-                viewModel.didTapFullName(with: $0)
+                viewModel.search(with: $0)
                 self?.searchController.searchBar.searchTextField.text = $0
                 self?.searchController.searchBar.searchTextField.resignFirstResponder()
-                viewModel.isHideFullNames.accept(true)
             }
             .disposed(by: self.disposeBag)
         
@@ -221,6 +249,8 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
     }
 }
+
+// MARK: -- RepoStartDelegate
 
 extension RepositoryListVC: RepoStarDelegate {
     

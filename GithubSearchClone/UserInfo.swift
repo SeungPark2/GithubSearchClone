@@ -51,8 +51,8 @@ class UserInfo {
         request.allHTTPHeaderFields?.updateValue("application/vnd.github.v3+json",
                                                  forKey: "Accept")
         
-        let param = ["client_id": "3669b2d1f5122ce49bbe",
-                     "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
+        let param = ["client_id": "",
+                     "client_secret": "",
                      "code": code]
         
         do {
@@ -108,7 +108,7 @@ class UserInfo {
         let urlString = Server.github +
                         Root.login +
                         Root.oauth +
-                        EndPoint.authorize + "?client_id=\("3669b2d1f5122ce49bbe")&scope=\(scope)"
+                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
         
         if let url = URL(string: urlString),
            UIApplication.shared.canOpenURL(url) {

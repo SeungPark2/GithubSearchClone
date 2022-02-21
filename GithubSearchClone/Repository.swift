@@ -25,10 +25,10 @@ struct Repository: Codable {
     let owner: Owner
     let starCount: Int?
     let license: License
-    @DefaultEmptyString var name: String
-    @DefaultEmptyString var language: String
-    @DefaultEmptyString var introduce: String
-    @DefaultEmptyString var visibility: String
+    var name: String
+    var language: String
+    var introduce: String
+    var visibility: String
     
     enum CodingKeys: String, CodingKey {
         
@@ -36,11 +36,25 @@ struct Repository: Codable {
         case starCount = "stargazers_count"
         case introduce = "description"
     }
+    
+    init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try? container.decode(Int.self, forKey: .id)
+        self.owner = try container.decode(Owner.self, forKey: .owner)
+        self.starCount = try? container.decode(Int.self, forKey: .starCount)
+        self.license = try container.decode(License.self, forKey: .license)
+        self.name = (try? container.decode(String.self, forKey: .name)) ?? ""
+        self.language = (try? container.decode(String.self, forKey: .language)) ?? ""
+        self.introduce = (try? container.decode(String.self, forKey: .introduce)) ?? ""
+        self.visibility = (try? container.decode(String.self, forKey: .visibility)) ?? ""
+    }
 }
 
 struct Owner: Codable {
     
-    @DefaultEmptyString var name: String
+    var name: String
     let id: Int?
     
     enum CodingKeys: String, CodingKey {
@@ -48,11 +62,28 @@ struct Owner: Codable {
         case name = "login"
         case id
     }
+    
+    init(from decoder: Decoder) throws {
+    
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = (try? container.decode(String.self, forKey: .name)) ?? ""
+        self.id = try? container.decode(Int.self, forKey: .id)
+    }
 }
 
 struct License: Codable {
     
-    @DefaultEmptyString var key: String
-    @DefaultEmptyString var name: String
-    @DefaultEmptyString var url: String
+    var key: String
+    var name: String
+    var url: String
+    
+    init(from decoder: Decoder) throws {
+    
+        let container = try? decoder.container(keyedBy: CodingKeys.self)
+        
+        self.name = (try? container?.decode(String.self, forKey: .name)) ?? ""
+        self.key = (try? container?.decode(String.self, forKey: .key)) ?? ""
+        self.url = (try? container?.decode(String.self, forKey: .url)) ?? ""
+    }
 }

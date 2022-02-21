@@ -33,12 +33,12 @@
                                                         <constraint firstAttribute="height" constant="20" id="DwR-Rx-2fA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.25072029229999998" green="0.25072029229999998" blue="0.25072029229999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="0.79943448309999998" green="0.79943448309999998" blue="0.79943448309999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book.closed.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xJ5-oU-yvc">
                                                     <rect key="frame" x="20" y="30" width="18" height="20"/>
-                                                    <color key="tintColor" red="0.25072029229999998" green="0.25072029229999998" blue="0.25072029229999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" red="0.79943448309999998" green="0.79943448309999998" blue="0.79943448309999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="Aq6-eO-fnR"/>
                                                         <constraint firstAttribute="height" constant="20" id="zFI-83-KFv"/>
@@ -47,7 +47,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="소개" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xah-QL-XCH">
                                                     <rect key="frame" x="50" y="54" width="344" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                                    <color key="textColor" red="0.39862066509999999" green="0.39131754639999999" blue="0.41299808030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="0.6774148941" green="0.71012097600000001" blue="0.74224847559999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDS-EX-UrJ">
@@ -62,7 +62,7 @@
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                                     </state>
                                                 </button>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="glg-pI-HlR">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="glg-pI-HlR">
                                                     <rect key="frame" x="50" y="93.5" width="16" height="16"/>
                                                     <color key="tintColor" red="0.25072029229999998" green="0.25072029229999998" blue="0.25072029229999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -101,6 +101,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="Vn5-gZ-4sM" firstAttribute="leading" secondItem="Ybe-Y7-cXm" secondAttribute="trailing" constant="4" id="3yl-s0-1y7"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="eOt-8f-K7n" secondAttribute="trailing" constant="20" id="4HM-uh-T8u"/>
@@ -200,7 +201,7 @@
                         <outlet property="fullNameTableView" destination="ZSx-aN-y2a" id="wRy-Yw-BhM"/>
                         <outlet property="loadingIndicatorView" destination="lo7-fe-IS8" id="aMI-M0-pUA"/>
                         <outlet property="loginButton" destination="czn-2o-BeE" id="j9y-kT-XUs"/>
-                        <outlet property="reposiEmptyLabel" destination="l0t-qa-Zj7" id="5HQ-kX-8tn"/>
+                        <outlet property="repoEmptyLabel" destination="l0t-qa-Zj7" id="aBC-ZX-m6f"/>
                         <outlet property="repositoryTableView" destination="Sdu-Ps-aBp" id="d6f-96-0LZ"/>
                     </connections>
                 </viewController>
@@ -264,12 +265,12 @@
                                                                 <constraint firstAttribute="height" constant="20" id="C8n-vl-Cne"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                            <color key="textColor" red="0.25072029229999998" green="0.25072029229999998" blue="0.25072029229999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" red="0.79943448309999998" green="0.79943448309999998" blue="0.79943448309999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book.closed.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vhR-hW-CId">
                                                             <rect key="frame" x="20" y="30" width="18" height="20"/>
-                                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="tintColor" red="0.79943448309999998" green="0.79943448309999998" blue="0.79943448309999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="18" id="Uvr-xc-VB4"/>
                                                                 <constraint firstAttribute="height" constant="20" id="uyG-DF-CKy"/>
@@ -278,7 +279,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="소개" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t0S-kj-c9Y">
                                                             <rect key="frame" x="50" y="54" width="344" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                                            <color key="textColor" red="0.39862066509999999" green="0.39131754639999999" blue="0.41299808030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" red="0.6774148941" green="0.71012097600000001" blue="0.74224847559999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rum-8E-pw0">
@@ -296,7 +297,7 @@
                                                                 <action selector="didTapStar:" destination="0bV-ev-kec" eventType="touchUpInside" id="Lbd-SD-PYA"/>
                                                             </connections>
                                                         </button>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qkA-HU-exh">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qkA-HU-exh">
                                                             <rect key="frame" x="50" y="93.5" width="16" height="16"/>
                                                             <color key="tintColor" red="0.25072029229999998" green="0.25072029229999998" blue="0.25072029229999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
@@ -466,6 +467,10 @@
                                             <constraint firstItem="WSb-pR-3R6" firstAttribute="trailing" secondItem="Eck-Oc-KFi" secondAttribute="trailing" id="yEh-XU-yBq"/>
                                         </constraints>
                                     </view>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="M4t-J1-u9Z">
+                                        <rect key="frame" x="188.5" y="344" width="37" height="37"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -475,7 +480,9 @@
                                     <constraint firstItem="rTL-fZ-ltN" firstAttribute="centerX" secondItem="TQJ-QS-2pm" secondAttribute="centerX" id="BrC-SD-1FA"/>
                                     <constraint firstItem="t6H-Zo-mIr" firstAttribute="centerY" secondItem="TQJ-QS-2pm" secondAttribute="centerY" constant="-20" id="Mt0-eG-AzV"/>
                                     <constraint firstItem="ayU-ad-peP" firstAttribute="top" secondItem="z5H-w8-ExZ" secondAttribute="bottom" id="OrD-OG-1Cs"/>
+                                    <constraint firstItem="M4t-J1-u9Z" firstAttribute="centerY" secondItem="TQJ-QS-2pm" secondAttribute="centerY" id="PuB-5N-23p"/>
                                     <constraint firstItem="t6H-Zo-mIr" firstAttribute="centerX" secondItem="TQJ-QS-2pm" secondAttribute="centerX" id="Qqd-pZ-xsw"/>
+                                    <constraint firstItem="M4t-J1-u9Z" firstAttribute="centerX" secondItem="TQJ-QS-2pm" secondAttribute="centerX" id="YoH-D7-CV1"/>
                                     <constraint firstAttribute="trailing" secondItem="ayU-ad-peP" secondAttribute="trailing" id="a38-Ld-maC"/>
                                     <constraint firstItem="ayU-ad-peP" firstAttribute="leading" secondItem="TQJ-QS-2pm" secondAttribute="leading" id="apb-6S-wvc"/>
                                     <constraint firstAttribute="bottom" secondItem="ayU-ad-peP" secondAttribute="bottom" id="hxI-g9-Zxc"/>
@@ -498,6 +505,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadingIndicatorView" destination="M4t-J1-u9Z" id="uEL-Ov-Fff"/>
                         <outlet property="loginBarButton" destination="xXI-qo-5o2" id="8tS-Al-XrD"/>
                         <outlet property="loginButton" destination="rTL-fZ-ltN" id="aqv-ZN-svy"/>
                         <outlet property="loginGuideLabel" destination="t6H-Zo-mIr" id="Iib-pg-FhG"/>

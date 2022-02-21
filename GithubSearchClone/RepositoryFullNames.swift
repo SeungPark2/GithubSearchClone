@@ -21,10 +21,17 @@ struct RepositoryFullNames: Codable {
 
 struct FullName: Codable {
     
-    @DefaultEmptyString var fullName: String
+    var fullName: String
     
     enum CodingKeys: String, CodingKey {
         
         case fullName = "full_name"
+    }
+    
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.fullName = (try? container.decode(String.self, forKey: .fullName)) ?? ""
     }
 }

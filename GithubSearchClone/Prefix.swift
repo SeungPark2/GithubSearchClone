@@ -9,22 +9,22 @@ import Foundation
 
 struct Server {
     
-    static let url    = "https://api.github.com"
-    static let github = "https://github.com"
+    static let url: String    = "https://api.github.com"
+    static let github: String = "https://github.com"
 }
 
 struct Root {
     
-    static let search = "/search"
-    static let login  = "/login"
-    static let oauth  = "/oauth"
-    static let user   = "/user"
+    static let search: String = "/search"
+    static let login: String  = "/login"
+    static let oauth: String  = "/oauth"
+    static let user: String   = "/user"
 }
 
 struct EndPoint {
     
-    static let repositories = "/repositories"
-    static let authorize    = "/authorize"
-    static let accessToken  = "/access_token"
-    static let startList    = "/starred"
+    static let repositories: String = "/repositories"
+    static let authorize: String    = "/authorize"
+    static let accessToken: String  = "/access_token"
+    static let startList: String    = "/starred"
 }

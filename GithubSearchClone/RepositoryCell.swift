@@ -14,9 +14,13 @@ protocol RepoStarDelegate: AnyObject {
 
 class RepositoryCell: UITableViewCell {
     
+    // MARK: -- Public Properties
+    
     static let identifier: String = "RepositoryCell"
     
     weak var repoStarDelegate: RepoStarDelegate?
+    
+    // MARK: -- Public Method
     
     func updateUI(repository: Repository, index: Int) {
         
@@ -37,11 +41,15 @@ class RepositoryCell: UITableViewCell {
         self.index = index
     }
     
+    // MARK: -- Life Cycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.languageColorView?.cornerRound()
     }
+    
+    // MARK: -- Private Method
     
     @IBAction private func didTapStar(_ sender: UIButton) {
         
@@ -53,7 +61,11 @@ class RepositoryCell: UITableViewCell {
         self.repoStarDelegate?.didTapStar(with: index)
     }
     
+    // MARK: -- Private Properties
+    
     private var index: Int? = nil
+    
+    // MARK: -- IBOutlet
     
     @IBOutlet private weak var repoNameAndOwnerLabel: UILabel?
     @IBOutlet private weak var repoIntroLabel: UILabel?

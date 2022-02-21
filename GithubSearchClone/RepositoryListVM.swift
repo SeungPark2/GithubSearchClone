@@ -13,26 +13,41 @@ protocol RepositoryListVMProtocol {
     var isLoaded: BehaviorRelay<Bool> { get }
     var errMsg: BehaviorRelay<String> { get }
     
-    var repositories: BehaviorRelay<[Repository]> { get }
-    var fullNames: BehaviorRelay<[FullName]> { get }
+    var repositories: BehaviorRelay<[Repository]?> { get }
+    var fullNames: BehaviorRelay<[FullName]?> { get }
     
     var isHideFullNames: BehaviorRelay<Bool> { get }
     
+    func resetFullNames()
+    func search(with fullName: String)
+    
     func typingWords(with searchWord: String)
-    func didTapFullName(with fullName: String)
+    
     func requestFullName()
     func requestRepo()
 }
 
 class RepositoryListVM: RepositoryListVMProtocol {
     
+    // MARK: -- Public Properties
+    
     var isLoaded = BehaviorRelay<Bool>(value: true)
     var errMsg = BehaviorRelay<String>(value: "")
     
-    var repositories = BehaviorRelay<[Repository]>(value: [])
-    var fullNames = BehaviorRelay<[FullName]>(value: [])
+    var repositories = BehaviorRelay<[Repository]?>(value: nil)
+    var fullNames = BehaviorRelay<[FullName]?>(value: nil)
     
     var isHideFullNames = BehaviorRelay<Bool>(value: true)
+    
+    // MARK: -- Public Method
+    
+    func resetFullNames() {
+        
+        self.isHideFullNames.accept(true)
+        self.fullNames.accept(nil)
+        self.fullNameNextPage = 1
+        self.searchWord = ""
+    }
     
     func typingWords(with searchWord: String) {
         
@@ -41,11 +56,12 @@ class RepositoryListVM: RepositoryListVMProtocol {
         
         self.requestFullName()
     }
-    
-    func didTapFullName(with fullName: String) {
+     
+    func search(with searchWord: String) {
         
-        self.searchWord = fullName
+        self.searchWord = searchWord
         self.repoNextPage = 1
+        self.isHideFullNames.accept(true)
         
         self.requestRepo()
     }
@@ -159,12 +175,16 @@ class RepositoryListVM: RepositoryListVMProtocol {
         
         if UserInfo.shared.apiToken == "" {
             
-            self.errMsg.accept("로그인 후 이용해주세요.")
+            self.errMsg.accept(ErrorMessage.requireLogin)
             return
         }
         
         
     }
+    
+    // MARK: -- Private Method
+    
+    // MARK: -- Private Properties
     
     private var searchWord: String = ""
     private var repoNextPage: Int? = 1

@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIButton{
+extension UIButton {
     
     // MARK: -- Builder
     static func create() -> UIButton {

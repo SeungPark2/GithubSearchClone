@@ -71,13 +71,13 @@ class UserInfo {
             
             guard let data = data else {
                 
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
                 return
             }
             
             let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             
-            print("statusCode \((response as? HTTPURLResponse)?.statusCode)")
+            print("statusCode \((response as? HTTPURLResponse)?.statusCode ?? 0)")
             print("json \(json ?? [:])")
             
             self?._apiToken = (json?["access_token"] as? String) ?? ""

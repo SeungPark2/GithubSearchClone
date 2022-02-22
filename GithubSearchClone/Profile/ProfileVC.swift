@@ -38,6 +38,7 @@ class ProfileVC: UIViewController {
         if UserInfo.shared.apiToken != "" {
             
             self.viewModel.requestUserInfo()
+            
             self.viewModel.requestStarRepo(with: true)
         }
     }
@@ -82,7 +83,7 @@ class ProfileVC: UIViewController {
         
         if UserInfo.shared.apiToken == "" {
             
-            self.loginGuideLabel?.text = "로그인이 필요합니다."
+            self.loginGuideLabel?.text = ErrorMessage.login
             return
         }
         
@@ -144,39 +145,23 @@ extension ProfileVC {
             }
             .disposed(by: self.disposeBag)
         
-        viewModel.userName
+        viewModel.user
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
+            .map { [weak self] userInfo -> User? in
                 
-                self?.userNameLabel?.text = $0
+                self?.userInfoView?.isHidden = userInfo == nil
+                return userInfo
             }
-            .disposed(by: self.disposeBag)
-        
-        viewModel.userImageURL
-            .filter { $0 != "" }
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
-
-                self?.downloadImage(with: $0)
-            }
-            .disposed(by: self.disposeBag)
-        
-        viewModel.userCompany
-            .map { $0 == "" ? "없음" : $0 }
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
+            .filter { $0 != nil }
+            .map { $0! }
+            .bind { [weak self] userInfo in
                 
-                self?.userCompanyLabel?.text = $0
-            }
-            .disposed(by: self.disposeBag)
-        
-        Observable.zip(viewModel.userFollowers,
-                       viewModel.userFollowing)
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] followers, following in
-                
-                self?.userFollowInfoLabel?.text = "\(followers) followers · " +
-                                                  "\(following) following"
+                self?.userNameLabel?.text = userInfo.name
+                self?.downloadImage(with: userInfo.imageURL)
+                self?.userCompanyLabel?.text = userInfo.company == "" ?
+                                               "없음" : userInfo.company
+                self?.userFollowInfoLabel?.text = "\(userInfo.followers) followers · " +
+                                                  "\(userInfo.following) following"
             }
             .disposed(by: self.disposeBag)
         
@@ -221,6 +206,6 @@ extension ProfileVC: RepoStarDelegate {
     
     func didTapStar(with index: Int) {
         
-        self.viewModel.requestDeleteStar(At: index)
+        self.viewModel.requestChangeStar(at: index)
     }
 }

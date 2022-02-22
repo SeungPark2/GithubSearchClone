@@ -38,6 +38,11 @@ class RepositoryCell: UITableViewCell {
         self.languageLabel?.text = repository.language
         self.licenseLabel?.text = repository.license.name
         
+        self.startButton?.setImage(repository.isAddedStart ?
+                                   UIImage(systemName: "star.fill") :
+                                   UIImage(systemName: "star"),
+                                   for: .normal)
+        
         self.index = index
     }
     

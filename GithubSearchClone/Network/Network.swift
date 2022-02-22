@@ -198,9 +198,9 @@ extension Network {
         message += "\n"
         message += "* STATUS CODE : \(statusCode)"
         message += "\n"
-        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
             
-            message += "* RESPONSE : \n\(json.description)"
+            message += "* RESPONSE : \n\(json)"
         }
         else {
             

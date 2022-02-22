@@ -25,6 +25,8 @@ protocol RepositoryListVMProtocol {
     
     func requestFullName()
     func requestRepo()
+    
+    func requestChangeStar(with index: Int)
 }
 
 class RepositoryListVM: RepositoryListVMProtocol {
@@ -171,7 +173,7 @@ class RepositoryListVM: RepositoryListVMProtocol {
             .disposed(by: self.disposeBag)
     }
     
-    func requestStar(with index: Int) {
+    func requestChangeStar(with index: Int) {
         
         if UserInfo.shared.apiToken == "" {
             
@@ -179,7 +181,36 @@ class RepositoryListVM: RepositoryListVMProtocol {
             return
         }
         
+        guard let repoName = self.repositories.value?[safe: index]?.name,
+              let ownerName = self.repositories.value?[safe: index]?.owner.name,
+              let isAdded = self.repositories.value?[safe: index]?.isAddedStart else {
+            
+            return
+        }
         
+        self.isLoaded.accept(false)
+        
+        Network.shared.requestBody(with: Root.user +
+                                         EndPoint.startList +
+                                         "/\(ownerName)/\(repoName)",
+                                   params: [:],
+                                   httpMethod: isAdded ? .delete : .put)
+            .subscribe(
+                onNext: { [weak self] _ in
+                    
+                    var copyRepos = self?.repositories.value
+                    
+                    copyRepos?[index].isAddedStart = !isAdded
+                    
+                    self?.repositories.accept(copyRepos ?? [])
+                    self?.isLoaded.accept(true)
+            },
+                onError: { [weak self] _ in
+                    
+                    self?.errMsg.accept("")
+                    self?.isLoaded.accept(true)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: -- Private Method

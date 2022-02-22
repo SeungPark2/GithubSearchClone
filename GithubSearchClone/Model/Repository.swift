@@ -30,6 +30,8 @@ struct Repository: Codable {
     var introduce: String
     var visibility: String
     
+    var isAddedStart: Bool = false
+    
     enum CodingKeys: String, CodingKey {
         
         case id, name, owner, language, visibility, license

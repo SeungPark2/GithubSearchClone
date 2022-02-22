@@ -28,6 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             print(url)
             
+            // githubsearchclone://login?code=코드 값
+            
             let code = url.description.components(separatedBy: "=").last ?? ""
 
             print(code)

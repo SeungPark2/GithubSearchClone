@@ -9,7 +9,7 @@ import UIKit
 
 extension UIColor {
     
-    static func colorBy(language: String) -> UIColor {
+    static func colorBy(language: String) -> UIColor? {
         
         switch language {
 
@@ -27,7 +27,7 @@ extension UIColor {
             case "Shell":        return #colorLiteral(red: 0.5389230847, green: 0.8794205785, blue: 0.3175361753, alpha: 1)
             case "PHP":          return #colorLiteral(red: 0.3106755614, green: 0.3659948111, blue: 0.5835784078, alpha: 1)
 
-        default: return #colorLiteral(red: 0.9409505129, green: 0.3160626292, blue: 0.2198818624, alpha: 1)
+        default: return nil
         }
     }
 }

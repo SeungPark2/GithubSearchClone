@@ -145,6 +145,7 @@ extension RepositoryListVC {
                 
                 cell.updateUI(repository: item,
                               index: index)
+                cell.repoStarDelegate = self
             }
             .disposed(by: self.disposeBag)
         
@@ -256,6 +257,6 @@ extension RepositoryListVC: RepoStarDelegate {
     
     func didTapStar(with index: Int) {
         
-        
+        self.viewModel.requestChangeStar(with: index)
     }
 }

@@ -13,17 +13,13 @@ protocol ProfileVMProtocol {
     var isLoaded: BehaviorRelay<Bool> { get }
     var errMsg: BehaviorRelay<String> { get }
     
-    var userName: BehaviorRelay<String> { get }
-    var userCompany: BehaviorRelay<String> { get }
-    var userImageURL: BehaviorRelay<String> { get }
-    var userFollowers: BehaviorRelay<Int> { get }
-    var userFollowing: BehaviorRelay<Int> { get }
+    var user: BehaviorRelay<User?> { get }
     
     var starRepos: BehaviorRelay<[Repository]?> { get }
     
     func requestUserInfo()
     func requestStarRepo(with viewWillAppear: Bool)
-    func requestDeleteStar(At index: Int)
+    func requestChangeStar(at index: Int)
 }
 
 class ProfileVM: ProfileVMProtocol {
@@ -33,11 +29,7 @@ class ProfileVM: ProfileVMProtocol {
     var isLoaded = BehaviorRelay<Bool>(value: true)
     var errMsg = BehaviorRelay<String>(value: "")
     
-    var userName = BehaviorRelay<String>(value: "")
-    var userCompany = BehaviorRelay<String>(value: "")
-    var userImageURL = BehaviorRelay<String>(value: "")
-    var userFollowers = BehaviorRelay<Int>(value: 0)
-    var userFollowing = BehaviorRelay<Int>(value: 0)
+    var user = BehaviorRelay<User?>(value: nil)    
     
     var starRepos = BehaviorRelay<[Repository]?>(value: nil)
     
@@ -45,7 +37,7 @@ class ProfileVM: ProfileVMProtocol {
     
     func requestUserInfo() {
         
-        if UserInfo.shared.apiToken != "", userName.value == "" {
+        if UserInfo.shared.apiToken != "", user.value == nil {
             
             Network.shared.requestGet(with: Root.user,
                                       query: nil)
@@ -53,12 +45,7 @@ class ProfileVM: ProfileVMProtocol {
                 .subscribe(
                     onNext: { [weak self] userInfo in
                         
-                        self?.userImageURL.accept(userInfo.imageURL)
-                        self?.userName.accept(userInfo.name)
-                        self?.userCompany.accept(userInfo.company)
-                        
-                        self?.userFollowers.accept(userInfo.followers)
-                        self?.userFollowing.accept(userInfo.following)
+                        self?.user.accept(userInfo)
                     },
                     onError: { [weak self] in
                         
@@ -72,14 +59,9 @@ class ProfileVM: ProfileVMProtocol {
     
     func requestStarRepo(with viewWillAppear: Bool) {
         
-        if viewWillAppear {
-            
-            self.repoNextPage = 1
-        }
-        
-        guard let nextPage = self.repoNextPage,
-              !self.isLoadingRepoNextPage,
-              UserInfo.shared.apiToken != "" else {
+        guard UserInfo.shared.apiToken != "",
+              let nextPage = self.repoNextPage,
+              !self.isLoadingRepoNextPage else {
             
             return
         }
@@ -88,23 +70,28 @@ class ProfileVM: ProfileVMProtocol {
         self.isLoadingRepoNextPage = true
         
         Network.shared.requestGet(with: Root.user + EndPoint.startList,
-                                  query: ["per_page": 10,
-                                          "page": nextPage])
+                                  query: nil)
             .decode(type: [Repository].self, decoder: JSONDecoder())
             .subscribe(
                 onNext: { [weak self] repo in
-                
+                    
                     var repositories = repo
                     
-                    if nextPage > 1 {
+                    let repoCount: Int = repositories.count
+                    for i in 0..<repoCount {
                         
-                        repositories = (self?.starRepos.value ?? []) + repo
+                        repositories[i].isAddedStart = true
                     }
                     
+                    if nextPage > 1 {
+
+                        repositories = (self?.starRepos.value ?? []) + repo
+                    }
+
                     self?.starRepos.accept(repositories)
-                    
+
                     self?.isLoaded.accept(true)
-                    
+
                     self?.isLoadingRepoNextPage = false
             },
                 onError: { [weak self] in
@@ -118,9 +105,11 @@ class ProfileVM: ProfileVMProtocol {
             .disposed(by: self.disposeBag)
     }
     
-    func requestDeleteStar(At index: Int) {
+    func requestChangeStar(at index: Int) {
         
-        guard let repoName = self.starRepos.value?[safe: index]?.name else {
+        guard let repoName = self.starRepos.value?[safe: index]?.name,
+              let ownerName = self.starRepos.value?[safe: index]?.owner.name,
+              let isAdded = self.starRepos.value?[safe: index]?.isAddedStart else {
             
             return
         }
@@ -129,22 +118,22 @@ class ProfileVM: ProfileVMProtocol {
         
         Network.shared.requestBody(with: Root.user +
                                          EndPoint.startList +
-                                         "/\(self.userName.value)/\(repoName)",
+                                         "/\(ownerName)/\(repoName)",
                                    params: [:],
-                                   httpMethod: .delete)
+                                   httpMethod: isAdded ? .delete : .put)
             .subscribe(
                 onNext: { [weak self] _ in
                     
                     var copyRepos = self?.starRepos.value
                     
-                    copyRepos?.remove(at: index)
+                    copyRepos?[index].isAddedStart = !isAdded
                     
                     self?.starRepos.accept(copyRepos ?? [])
                     self?.isLoaded.accept(true)
             },
                 onError: { [weak self] _ in
                     
-                    self?.errMsg.accept("스타 해제에 실패했습니다. \n다시 시도해주세요.")
+                    self?.errMsg.accept(ErrorMessage.failedRemoveStar)
                     self?.isLoaded.accept(true)
             })
             .disposed(by: self.disposeBag)

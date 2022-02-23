@@ -13,18 +13,21 @@ protocol RepositoryListVMProtocol {
     var isLoaded: BehaviorRelay<Bool> { get }
     var errMsg: BehaviorRelay<String> { get }
     
-    var repositories: BehaviorRelay<[Repository]?> { get }
-    var fullNames: BehaviorRelay<[FullName]?> { get }
+    var repositories: BehaviorRelay<[Repository]> { get }
+    var fullNames: BehaviorRelay<[FullName]> { get }
     
-    var isHideFullNames: BehaviorRelay<Bool> { get }
+    var isHiddenEmptyText: BehaviorRelay<Bool> { get }
+    var isHiddenFullNames: BehaviorRelay<Bool> { get }
     
-    func resetFullNames()
+    func reset()
     func search(with fullName: String)
     
     func typingWords(with searchWord: String)
     
     func requestFullName()
     func requestRepo()
+    
+    func refreshRepo()
     
     func requestChangeStar(with index: Int)
 }
@@ -35,20 +38,24 @@ class RepositoryListVM: RepositoryListVMProtocol {
     
     var isLoaded = BehaviorRelay<Bool>(value: true)
     var errMsg = BehaviorRelay<String>(value: "")
+            
+    var repositories = BehaviorRelay<[Repository]>(value: [])
+    var fullNames = BehaviorRelay<[FullName]>(value: [])
     
-    var repositories = BehaviorRelay<[Repository]?>(value: nil)
-    var fullNames = BehaviorRelay<[FullName]?>(value: nil)
-    
-    var isHideFullNames = BehaviorRelay<Bool>(value: true)
+    var isHiddenEmptyText = BehaviorRelay<Bool>(value: true)
+    var isHiddenFullNames = BehaviorRelay<Bool>(value: true)
     
     // MARK: -- Public Method
     
-    func resetFullNames() {
+    func reset() {
         
-        self.isHideFullNames.accept(true)
-        self.fullNames.accept(nil)
+        self.isHiddenFullNames.accept(true)
+        self.repositories.accept([])
+        self.fullNames.accept([])
         self.fullNameNextPage = 1
+        self.repoNextPage = 1
         self.searchWord = ""
+        self.isHiddenEmptyText.accept(true)
     }
     
     func typingWords(with searchWord: String) {
@@ -57,14 +64,22 @@ class RepositoryListVM: RepositoryListVMProtocol {
         self.fullNameNextPage = 1
         
         self.requestFullName()
+        self.isHiddenEmptyText.accept(true)
     }
      
     func search(with searchWord: String) {
         
         self.searchWord = searchWord
         self.repoNextPage = 1
-        self.isHideFullNames.accept(true)
+        self.isHiddenFullNames.accept(true)
+        self.isHiddenEmptyText.accept(true)
         
+        self.requestRepo()
+    }
+    
+    func refreshRepo() {
+        
+        self.repoNextPage = 1
         self.requestRepo()
     }
     
@@ -81,9 +96,10 @@ class RepositoryListVM: RepositoryListVMProtocol {
         Network.shared.requestGet(
             with: Root.search + EndPoint.repositories,
             query: ["q": self.searchWord,
-                    "per_page": 10,
+                    "per_page": 20,
                     "page": nextPage]
         )
+            .map { $0.data }
             .decode(type: RepositoryFullNames.self, decoder: JSONDecoder())
             .subscribe(
                 onNext: { [weak self] repository in
@@ -97,6 +113,11 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     
                     self?.fullNames.accept(fullNames)
                     
+                    if !(self?.isHiddenFullNames.value ?? true) {
+                        
+                        self?.isHiddenEmptyText.accept(!fullNames.isEmpty)
+                    }
+                    
                     if (repository.totalCount ?? 0) - (30 * nextPage) > 0 {
                         
                         self?.fullNameNextPage = nextPage + 1
@@ -105,7 +126,7 @@ class RepositoryListVM: RepositoryListVMProtocol {
                         
                         self?.fullNameNextPage = nil
                     }
-                    
+                                                                                
                     self?.isLoadingFullNameNextPage = false
             },
                 onError: { [weak self] in
@@ -136,20 +157,30 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     "per_page": 10,
                     "page": nextPage]
         )
+            .map { $0.data }
             .decode(type: Repositories.self, decoder: JSONDecoder())
             .subscribe(
                 onNext: { [weak self] repo in
                 
                     var repositories = repo.items
                     
-                    if nextPage > 1 {
+                    let repoCount: Int = repositories.count
+                    for i in 0..<repoCount {
                         
-                        repositories = (self?.repositories.value ?? []) + repo.items
+                        if !UserInfo.shared.starRepos.filter({
+                                $0.id == repositories[i].id }).isEmpty {
+                            
+                            repositories[i].isAddedStart = true
+                        }
                     }
                     
+                    if nextPage > 1 {
+
+                        repositories = (self?.repositories.value ?? []) + repo.items
+                    }
+
                     self?.repositories.accept(repositories)
-                    
-                    self?.isLoaded.accept(true)
+                    self?.isHiddenEmptyText.accept(!repositories.isEmpty)
                     
                     if (repo.totalCount ?? 0) - (10 * nextPage) > 0 {
                         
@@ -159,7 +190,8 @@ class RepositoryListVM: RepositoryListVMProtocol {
                         
                         self?.repoNextPage = nil
                     }
-                    
+
+                    self?.isLoaded.accept(true)
                     self?.isLoadingRepoNextPage = false
             },
                 onError: { [weak self] in
@@ -181,9 +213,8 @@ class RepositoryListVM: RepositoryListVMProtocol {
             return
         }
         
-        guard let repoName = self.repositories.value?[safe: index]?.name,
-              let ownerName = self.repositories.value?[safe: index]?.owner.name,
-              let isAdded = self.repositories.value?[safe: index]?.isAddedStart else {
+        guard let selectedRepo = self.repositories.value[safe: index],
+              let isAdded = self.repositories.value[safe: index]?.isAddedStart else {
             
             return
         }
@@ -192,7 +223,8 @@ class RepositoryListVM: RepositoryListVMProtocol {
         
         Network.shared.requestBody(with: Root.user +
                                          EndPoint.startList +
-                                         "/\(ownerName)/\(repoName)",
+                                         "/\(selectedRepo.owner.name)/" +
+                                         "\(selectedRepo.name)",
                                    params: [:],
                                    httpMethod: isAdded ? .delete : .put)
             .subscribe(
@@ -204,10 +236,14 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     
                     self?.repositories.accept(copyRepos ?? [])
                     self?.isLoaded.accept(true)
+                    
+                    isAdded ? UserInfo.shared.addStarRepo(selectedRepo) :
+                              UserInfo.shared.removeStarRepo(selectedRepo)
             },
                 onError: { [weak self] _ in
                     
-                    self?.errMsg.accept("")
+                    self?.errMsg.accept(isAdded ? ErrorMessage.failedAddStar :
+                                                  ErrorMessage.failedRemoveStar)
                     self?.isLoaded.accept(true)
             })
             .disposed(by: self.disposeBag)

@@ -11,9 +11,10 @@ import RxCocoa
 protocol NetworkProtocol {
     
     func requestGet(with endPoint: String,
-                    query: [String: Any]?) -> Observable<Data>
+                    query: [String: Any]?) -> Observable<Network.GetResponse>
     
-    func requestBody(with endPoint: String,
+    func requestBody(serverURL: String,
+                     with endPoint: String,
                      params: [String: Any],
                      httpMethod: Network.HttpMethod) -> Observable<Data>
 }
@@ -38,12 +39,18 @@ class Network: NetworkProtocol {
         case failed(errCode: Int?, message: String?)
         case serverNotConnected
     }
+    
+    struct GetResponse {
+        
+        let isHadNextPage: Bool
+        let data: Data
+    }
 }
 
 extension Network {
     
     func requestGet(with endPoint: String,
-                    query: [String : Any]?) -> Observable<Data> {
+                    query: [String : Any]?) -> Observable<GetResponse> {
         
         var urlString = Server.url + endPoint
         
@@ -63,15 +70,34 @@ extension Network {
         let request = self.createURLRequest(url: url,
                                             httpMethod: .get)
         
-        return self.requestDataTask(request: request,
-                                    params: query)
+        return URLSession.shared.rx
+                 .response(request: request)
+                 .map { response, data -> GetResponse  in
+                       
+                     self.printRequestInfo(request.url?.description,
+                                           request.httpMethod,
+                                           query,
+                                           data,
+                                           response.statusCode)
+                       
+                     if 200...299 ~= response.statusCode {
+                           
+                         let linkString = response.allHeaderFields["Link"] as? String
+                         
+                         return GetResponse(isHadNextPage: linkString?.findNextPage() ?? false,
+                                            data: data)
+                     }
+                    
+                     throw self.checkNetworkError(with: response.statusCode)
+                 }
     }
     
-    func requestBody(with endPoint: String,
+    func requestBody(serverURL: String = Server.url,
+                     with endPoint: String,
                      params: [String : Any],
                      httpMethod: HttpMethod) -> Observable<Data> {
         
-        guard let url = URL(string: Server.url + endPoint) else {
+        guard let url = URL(string: serverURL + endPoint) else {
             
             return .error(NetworkError.failed(errCode: nil,
                                               message: nil))
@@ -91,8 +117,23 @@ extension Network {
             return .error(error)
         }
         
-        return self.requestDataTask(request: request,
-                                    params: params)
+        return URLSession.shared.rx
+                 .response(request: request)
+                 .map { response, data -> Data  in
+                        
+                     self.printRequestInfo(request.url?.description,
+                                           request.httpMethod,
+                                           params,
+                                           data,
+                                           response.statusCode)
+                        
+                     if 200...299 ~= response.statusCode {
+                            
+                         return data
+                     }
+                     
+                     throw self.checkNetworkError(with: response.statusCode)
+                 }
     }
     
     private func createURLRequest(url: URL,
@@ -115,43 +156,27 @@ extension Network {
         return request
     }
     
-    private func requestDataTask(request: URLRequest,
-                                 params: [String: Any]?) -> Observable<Data> {
+    private func checkNetworkError(with statusCode: Int) -> NetworkError {
         
-        return URLSession.shared.rx
-            .response(request: request)
-            .map { response, data -> Data  in
-                
-                self.printRequestInfo(request.url?.description,
-                                      request.httpMethod,
-                                      params,
-                                      data,
-                                      response.statusCode)
-                
-                if 200...299 ~= response.statusCode {
-                    
-                    return data
-                }
-                
-                
-                if 500...599 ~= response.statusCode {
-                    
-                    throw NetworkError.serverNotConnected
-                }
-                
-                if response.statusCode == 401 {
-                    
-                    throw NetworkError.invalidToken
-                }
-                
-                if response.statusCode == 403 {
-                    
-                    throw NetworkError.accessDenied
-                }
-                
-                throw NetworkError.failed(errCode: response.statusCode,
-                                          message: "")
-            }
+        
+        if 500...599 ~= statusCode {
+            
+            return NetworkError.serverNotConnected
+        }
+        
+        if statusCode == 401 {
+            
+            return NetworkError.invalidToken
+        }
+        
+        if statusCode == 403 {
+            
+            return NetworkError.accessDenied
+        }
+        
+        return NetworkError.failed(errCode: statusCode,
+                                   message: "")
+        
     }
 }
 

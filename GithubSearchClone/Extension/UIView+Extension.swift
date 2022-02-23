@@ -104,4 +104,14 @@ extension UIView {
             break
         }
     }
+    
+    func height(constant: CGFloat = 0) {
+        
+        self.heightAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+    
+    func width(constant: CGFloat = 0) {
+        
+        self.widthAnchor.constraint(equalToConstant: constant).isActive = true
+    }
 }

@@ -21,6 +21,11 @@ class RepositoryListVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        if UserInfo.shared.apiToken != "" {
+            
+            showSplashVC()
+        }
+        
         self.naviAndTabbar()
         
         self.bindState(with: self.viewModel)
@@ -49,18 +54,9 @@ class RepositoryListVC: UIViewController {
     
     private func updateUI() {
         
-        self.loginButton?.title = UserInfo.shared.apiToken == "" ?
-                                  "로그인" : "로그아웃"
-    }
-    
-    private func updateRepoEmptyTitle(with repos: [Any]?) {
-        
-        self.repoEmptyLabel?.isHidden = !(repos?.count == 0)
-        
-        if repos?.count == 0 {
-            
-            self.repoEmptyLabel?.text = ErrorMessage.resultEmpty
-        }
+        self.loginButton?.image = UserInfo.shared.apiToken == "" ?
+                                  UIImage(named: "login") :
+                                  UIImage(named: "logout")
     }
     
     // MARK: -- Private Properties
@@ -73,6 +69,7 @@ class RepositoryListVC: UIViewController {
                                             forKey: "cancelButtonText")
         searchController.searchBar.tintColor = .white
         searchController.searchBar.searchTextField.leftView?.tintColor = .lightGray
+        searchController.hidesNavigationBarDuringPresentation = false
         self.navigationItem.searchController = searchController
         
         return searchController
@@ -89,7 +86,7 @@ class RepositoryListVC: UIViewController {
     @IBOutlet private var repositoryTableView: UITableView!
     @IBOutlet private var fullNameTableView: UITableView!
     
-    @IBOutlet private weak var repoEmptyLabel: UILabel?
+    @IBOutlet private weak var searchEmptyLabel: UILabel?
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView?
 }
 
@@ -105,7 +102,7 @@ extension RepositoryListVC {
                 
                 $0 ? self?.loadingIndicatorView?.stopAnimating() :
                      self?.loadingIndicatorView?.startAnimating()
-                self?.loadingIndicatorView?.isHidden = $0
+                     self?.loadingIndicatorView?.isHidden = $0
             }
             .disposed(by: self.disposeBag)
         
@@ -118,7 +115,7 @@ extension RepositoryListVC {
             }
             .disposed(by: self.disposeBag)
         
-        viewModel.isHideFullNames
+        viewModel.isHiddenFullNames
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 
@@ -126,15 +123,16 @@ extension RepositoryListVC {
             }
             .disposed(by: self.disposeBag)
         
+        viewModel.isHiddenEmptyText
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] in
+                
+                self?.searchEmptyLabel?.isHidden = $0
+            }
+            .disposed(by: self.disposeBag)
+        
         viewModel.repositories
             .observe(on: MainScheduler.instance)
-            .map { repos -> [Repository]? in
-
-                self.updateRepoEmptyTitle(with: repos)
-                return repos
-            }
-            .filter { $0 != nil }
-            .map { $0 ?? [] }
             .bind(to: self.repositoryTableView.rx.items(
                         cellIdentifier: RepositoryCell.identifier,
                         cellType: RepositoryCell.self
@@ -150,15 +148,7 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         viewModel.fullNames
-            .observe(on: MainScheduler.instance)
-            .map { names -> [FullName]? in
-
-                self.updateRepoEmptyTitle(with: names)
-                return names
-            }
-            .filter { $0 != nil }
-            .map { $0 ?? [] }
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.instance)            
             .bind(to: self.fullNameTableView.rx.items(
                         cellIdentifier: "FullNameCell"
                       )
@@ -182,13 +172,14 @@ extension RepositoryListVC {
         self.searchController.searchBar.rx.text
             .distinctUntilChanged()
             .map { $0 ?? "" }
-            .filter { $0 != "" && !viewModel.isHideFullNames.value }
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .filter { $0 != "" && !viewModel.isHiddenFullNames.value }
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
             .bind { viewModel.typingWords(with: $0) }
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.textDidBeginEditing
-            .bind { viewModel.isHideFullNames.accept(false) }
+            .bind { viewModel.isHiddenEmptyText.accept(true)
+                    viewModel.isHiddenFullNames.accept(false) }
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.searchButtonClicked
@@ -200,12 +191,12 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.cancelButtonClicked
-            .bind { viewModel.resetFullNames() }
+            .bind { viewModel.reset() }
             .disposed(by: self.disposeBag)
         
         self.fullNameTableView.rx.itemSelected
             .map { $0.row }
-            .map { viewModel.fullNames.value?[safe: $0]?.fullName ?? "" }
+            .map { viewModel.fullNames.value[safe: $0]?.fullName ?? "" }
             .filter { $0 != "" }
             .bind { [weak self] in
                 
@@ -238,15 +229,33 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         self.repositoryTableView.rx.contentOffset
-            .filter { [weak self] offset in
+            .map { [weak self] offset -> ScrollType in
                 
-                guard let `self` = self else { return false }
-                guard self.repositoryTableView.frame.height > 0 else { return false }
+                guard let `self` = self else { return .none }
+                guard self.repositoryTableView.isDragging else { return .none }
                 
-                return offset.y + self.repositoryTableView.frame.height >=
-                       self.repositoryTableView.contentSize.height + 50
+                if offset.y < -100 {
+                    
+                    return .refresh
+                }
+                
+                if offset.y + self.repositoryTableView.frame.height >=
+                    self.repositoryTableView.contentSize.height + 50 {
+                    
+                    return .moreData
+                }
+                
+                return .none
             }
-            .bind { _ in viewModel.requestRepo() }
+            .bind { type in
+                
+                switch type {
+                    
+                    case .refresh  : viewModel.refreshRepo()
+                    case .moreData : viewModel.requestRepo()
+                    case .none     : break
+                }
+            }
             .disposed(by: self.disposeBag)
     }
 }

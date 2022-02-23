@@ -27,20 +27,12 @@ class ProfileVC: UIViewController {
         self.bindAction(viewModel: self.viewModel)
         
         self.loginButton?.cornerRound(radius: 4)
-        self.userImageView?.cornerRound()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.updateUI()
-        
-        if UserInfo.shared.apiToken != "" {
-            
-            self.viewModel.requestUserInfo()
-            
-            self.viewModel.requestStarRepo(with: true)
-        }
     }
     
     // MARK: -- Private Method
@@ -59,24 +51,14 @@ class ProfileVC: UIViewController {
     
     private func updateUI() {
         
-        self.loginBarButton?.title = UserInfo.shared.apiToken == "" ?
-                                     "로그인" : "로그아웃"
+        self.loginBarButton?.image = UserInfo.shared.apiToken == "" ?
+                                     UIImage(named: "login") :
+                                     UIImage(named: "logout")
         
         self.loginGuideLabel?.isHidden = UserInfo.shared.apiToken != ""
         self.loginButton?.isHidden     = UserInfo.shared.apiToken != ""
         
-        self.userInfoView?.isHidden      = UserInfo.shared.apiToken == ""
         self.starRepoTableView?.isHidden = UserInfo.shared.apiToken == ""
-    }
-    
-    private func downloadImage(with imageURL: String) {
-        
-        KF.url(URL(string: imageURL))
-          .loadDiskFileSynchronously()
-          .cacheMemoryOnly()
-          .fade(duration: 0.25)
-          .onFailure { error in print(error.localizedDescription) }
-          .set(to: self.userImageView ?? UIImageView())
     }
     
     private func updateLoginGuideTitle(with repos: [Repository]?) {
@@ -108,13 +90,7 @@ class ProfileVC: UIViewController {
     
     @IBOutlet private weak var loginGuideLabel: UILabel?
     @IBOutlet private weak var loginButton: UIButton?
-    
-    @IBOutlet private weak var userInfoView: UIView?
-    @IBOutlet private weak var userImageView: UIImageView?
-    @IBOutlet private weak var userNameLabel: UILabel?
-    @IBOutlet private weak var userCompanyLabel: UILabel?
-    @IBOutlet private weak var userFollowInfoLabel: UILabel?
-    
+        
     @IBOutlet private var starRepoTableView: UITableView!
     
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView?
@@ -136,6 +112,15 @@ extension ProfileVC {
             }
             .disposed(by: self.disposeBag)
         
+        viewModel.isHiddenEmptyText
+            .filter { _ in UserInfo.shared.apiToken != "" }
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] in
+                
+                self?.loginGuideLabel?.isHidden = $0
+            }
+            .disposed(by: self.disposeBag)
+        
         viewModel.errMsg
             .filter { $0 != "" }
             .observe(on: MainScheduler.instance)
@@ -146,34 +131,33 @@ extension ProfileVC {
             .disposed(by: self.disposeBag)
         
         viewModel.user
-            .observe(on: MainScheduler.instance)
-            .map { [weak self] userInfo -> User? in
+            .filter { [weak self] in
                 
-                self?.userInfoView?.isHidden = userInfo == nil
-                return userInfo
+                if $0 == nil {
+                    
+                    self?.starRepoTableView.tableHeaderView = nil
+                    return false
+                }
+                
+                return true
             }
-            .filter { $0 != nil }
             .map { $0! }
-            .bind { [weak self] userInfo in
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] in
                 
-                self?.userNameLabel?.text = userInfo.name
-                self?.downloadImage(with: userInfo.imageURL)
-                self?.userCompanyLabel?.text = userInfo.company == "" ?
-                                               "없음" : userInfo.company
-                self?.userFollowInfoLabel?.text = "\(userInfo.followers) followers · " +
-                                                  "\(userInfo.following) following"
+                let userInfoView = UserInfoView(
+                                    frame: CGRect(
+                                            x: 0, y: 0,
+                                            width: self?.view.bounds.width ?? 0,
+                                            height: 120),
+                                    user: $0
+                                   )
+                self?.starRepoTableView.tableHeaderView = userInfoView
             }
             .disposed(by: self.disposeBag)
         
         viewModel.starRepos
-            .observe(on: MainScheduler.instance)
-            .map { [weak self] repos -> [Repository]? in
-                
-                self?.updateLoginGuideTitle(with: repos)
-                return repos
-            }
-            .filter { $0 != nil }
-            .map { $0 ?? [] }
+            .observe(on: MainScheduler.instance)            
             .bind(to: self.starRepoTableView.rx.items(cellIdentifier: RepositoryCell.identifier,
                                                       cellType: RepositoryCell.self)) {
                 
@@ -196,6 +180,36 @@ extension ProfileVC {
         
         self.loginButton?.rx.tap
             .bind { UserInfo.shared.checkAPIToken() }
+            .disposed(by: self.disposeBag)
+        
+        self.starRepoTableView.rx.contentOffset
+            .map { [weak self] offset -> ScrollType in
+                
+                guard let `self` = self else { return .none }
+                guard self.starRepoTableView.isDragging else { return .none }
+                
+                if offset.y < -100 {
+                    
+                    return .refresh
+                }
+                
+                if offset.y + self.starRepoTableView.frame.height >=
+                        self.starRepoTableView.contentSize.height + 50 {
+                    
+                    return .moreData
+                }
+                
+                return .none
+            }
+            .bind { type in
+                
+                switch type {
+                    
+                    case .refresh  :  viewModel.refresh()
+                    case .moreData : viewModel.requestStarRepo()
+                    case .none     : break
+                }
+            }
             .disposed(by: self.disposeBag)
     }
 }

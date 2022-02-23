@@ -35,12 +35,18 @@ extension UIButton {
         return self
     }
     
-    func withImage(_ image: UIImage) -> UIButton {
+    func withImage(_ image: UIImage?) -> UIButton {
         
         self.setImage(image,
                       for: .normal)
         return self
-    }    
+    }
+    
+    func withImageColor(_ color: UIColor) -> UIButton {
+        
+        self.imageView?.tintColor = color
+        return self
+    }
     
     func withTitlePadding(_ edgeInsets: UIEdgeInsets) -> UIButton {
         

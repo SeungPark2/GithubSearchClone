@@ -29,4 +29,13 @@ extension UIViewController {
                      animated: false,
                      completion: nil)
     }
+    
+    func showSplashVC() {
+        
+        if let splashVC = storyboard?.instantiateViewController(withIdentifier: "SplashVC") {
+            
+            splashVC.modalPresentationStyle = .fullScreen
+            self.present(splashVC, animated: false)
+        }
+    }
 }

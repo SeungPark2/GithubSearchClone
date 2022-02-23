@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+
 class UserInfo {
     
     static let shared: UserInfo = UserInfo()
@@ -15,10 +17,16 @@ class UserInfo {
         self._apiToken = UserDefaults.standard.string(forKey: self.apiTokenKey)
     }
     
+    // MARK: -- Public Properties
+    
     var apiToken: String {
         
         get { return self._apiToken ?? "" }
     }
+    
+    var starRepos: [Repository] = []
+    
+    // MARK: -- Public Method
     
     func checkAPIToken() {
         
@@ -32,73 +40,70 @@ class UserInfo {
         UIApplication.topViewController()?.viewWillAppear(true)
     }
     
-    func requestAPIToken(code: String) {
+    func addStarRepo(_ repo: Repository) {
         
-        guard let url = URL(string: Server.github +
-                                    Root.login +
-                                    Root.oauth +
-                                    EndPoint.accessToken) else {
+        if self.starRepos.firstIndex(where: { $0.id == repo.id }) == nil {
             
-            return
+            self.starRepos.append(repo)
         }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        request.allHTTPHeaderFields?.updateValue("application/json",
-                                                 forKey: "Content-Type")
-        
-        request.allHTTPHeaderFields?.updateValue("application/vnd.github.v3+json",
-                                                 forKey: "Accept")
-        
-        let param = ["client_id": "",
-                     "client_secret": "",
-                     "code": code]
-        
-        do {
-            
-            try request.httpBody = JSONSerialization.data(withJSONObject: param,
-                                                          options: [])
-        }
-        catch {
-            
-            print(error.localizedDescription)
-        }
-                
-        URLSession.shared.dataTask(with: request) {
-            
-            [weak self] data, response, error in
-            
-            guard let data = data else {
-                
-                print(error?.localizedDescription ?? "")
-                return
-            }
-            
-            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            
-            print("statusCode \((response as? HTTPURLResponse)?.statusCode ?? 0)")
-            print("json \(json ?? [:])")
-            
-            self?._apiToken = (json?["access_token"] as? String) ?? ""
-            UserDefaults.standard.setValue(self?._apiToken,
-                                           forKey: self?.apiTokenKey ?? "")
-            
-            DispatchQueue.main.async {
-            
-                let vc = UIApplication.topViewController()
-                
-                vc?.viewWillAppear(true)
-            }
-            
-        }.resume()
     }
+    
+    func removeStarRepo(_ repo: Repository) {
+        
+        if let index = self.starRepos.firstIndex(where: { $0.id == repo.id }) {
+            
+            self.starRepos.remove(at: index)
+        }
+    }
+    
+    // MARK: -- Private Method
     
     private func logout() {
         
         self._apiToken = nil
         UserDefaults.standard.setValue(nil,
                                        forKey: self.apiTokenKey)
+        self.starRepos.removeAll()
+    }
+    
+    func requestAPIToken(code: String) {
+        
+        Network.shared.requestBody(serverURL: Server.github,
+                                   with: Root.login +
+                                         Root.oauth +
+                                         EndPoint.accessToken,
+                                   params: ["client_id": "3669b2d1f5122ce49bbe",
+                                            "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
+                                            "code": code],
+                                   httpMethod: .post)
+            .subscribe(
+                onNext: { [weak self] data in
+                    
+                    let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    
+                    print("json \(json ?? [:])")
+                    
+                    self?._apiToken = (json?["access_token"] as? String) ?? ""
+                    UserDefaults.standard.setValue(self?._apiToken,
+                                                   forKey: self?.apiTokenKey ?? "")
+                    
+                    DispatchQueue.main.async {
+                    
+                        let vc = UIApplication.topViewController()
+                        
+                        vc?.viewWillAppear(true)
+                        vc?.showSplashVC()
+                    }
+                },
+                onError: {
+                    
+                    print($0.localizedDescription)
+                    DispatchQueue.main.async {
+                        
+                        UIApplication.topViewController()?.showAlert(content: ErrorMessage.failedLogin)
+                    }
+                })
+            .disposed(by: self.disposeBag)
     }
     
     private func requestGithubCode() {
@@ -108,7 +113,7 @@ class UserInfo {
         let urlString = Server.github +
                         Root.login +
                         Root.oauth +
-                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
+                        EndPoint.authorize + "?client_id=\("3669b2d1f5122ce49bbe")&scope=\(scope)"
         
         if let url = URL(string: urlString),
            UIApplication.shared.canOpenURL(url) {
@@ -117,6 +122,10 @@ class UserInfo {
         }
     }
     
+    // MARK: -- Private Properties
+    
     private var _apiToken: String? = nil
     private let apiTokenKey: String = "apiTokenKey"
+    
+    private let disposeBag = DisposeBag()
 }

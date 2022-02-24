@@ -4,7 +4,7 @@ Github 앱 만들기
 # 실행방법
 1. git pull (또는 Download)
 2. pod install
-3. client id, client secret 값 입력  
+3. client id, client secret 값 입력 (3-1, 3-2 위치에 입력)  
     3-1. Model -> UserInfo -> reqeustAPIToken -> parameter  
     3-2. Model -> UserInfo -> requestGithubCode -> url 
 4. 실행

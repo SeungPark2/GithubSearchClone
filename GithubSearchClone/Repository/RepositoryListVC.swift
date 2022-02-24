@@ -77,7 +77,7 @@ class RepositoryListVC: UIViewController {
     private lazy var searchController: UISearchController = {
         
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "저장소명 또는 소유자명 검색"
+        searchController.searchBar.placeholder = "저장소명 검색"
         searchController.searchBar.setValue("취소",
                                             forKey: "cancelButtonText")
         searchController.searchBar.tintColor = .white
@@ -118,6 +118,7 @@ extension RepositoryListVC {
     
     private func bindState(with viewModel: RepositoryListVMProtocol) {
         
+        self.searchController.searchBar.searchTextField.textColor = .white
         self.loginButton?.image = UserInfo.shared.apiToken == "" ?
                                   UIImage(named: "login") :
                                   UIImage(named: "logout")

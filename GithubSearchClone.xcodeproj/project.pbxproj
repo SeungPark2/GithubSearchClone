@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0143F35227C72CA600955181 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35127C72CA600955181 /* NotificationName+Extension.swift */; };
+		0143F35427C7389E00955181 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35327C7389E00955181 /* NotificationName+Extension.swift */; };
+		0143F35627C738A900955181 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35527C738A900955181 /* UserInfoView.swift */; };
+		0143F35827C749B600955181 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35727C749B600955181 /* NetworkError.swift */; };
+		0143F35A27C749F300955181 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35927C749F300955181 /* HttpMethod.swift */; };
+		0143F35C27C74A1A00955181 /* GetReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35B27C74A1A00955181 /* GetReponse.swift */; };
 		015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CEB27BF863E00252FA0 /* AppDelegate.swift */; };
 		015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CED27BF863E00252FA0 /* SceneDelegate.swift */; };
 		015A2CF327BF863E00252FA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015A2CF127BF863E00252FA0 /* Main.storyboard */; };
@@ -35,12 +39,15 @@
 		015A2D7227C3E09500252FA0 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7027C3E09500252FA0 /* ProfileVM.swift */; };
 		015A2D7327C3E09500252FA0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7127C3E09500252FA0 /* ProfileVC.swift */; };
 		015A2D7D27C519D600252FA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7C27C519D600252FA0 /* SplashVC.swift */; };
-		015A2D7F27C5E81300252FA0 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7E27C5E81300252FA0 /* UserInfoView.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0143F35127C72CA600955181 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		0143F35327C7389E00955181 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NotificationName+Extension.swift"; path = "Extension/NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		0143F35527C738A900955181 /* UserInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInfoView.swift; path = CustomView/UserInfoView.swift; sourceTree = "<group>"; };
+		0143F35727C749B600955181 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		0143F35927C749F300955181 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		0143F35B27C74A1A00955181 /* GetReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReponse.swift; sourceTree = "<group>"; };
 		015A2CE827BF863E00252FA0 /* GithubSearchClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubSearchClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		015A2CEB27BF863E00252FA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		015A2CED27BF863E00252FA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +77,6 @@
 		015A2D7027C3E09500252FA0 /* ProfileVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVM.swift; path = Profile/ProfileVM.swift; sourceTree = "<group>"; };
 		015A2D7127C3E09500252FA0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Profile/ProfileVC.swift; sourceTree = "<group>"; };
 		015A2D7C27C519D600252FA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
-		015A2D7E27C5E81300252FA0 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -99,7 +105,7 @@
 		0143F35027C7244C00955181 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				015A2D7E27C5E81300252FA0 /* UserInfoView.swift */,
+				0143F35527C738A900955181 /* UserInfoView.swift */,
 			);
 			name = CustomView;
 			sourceTree = "<group>";
@@ -165,7 +171,7 @@
 				015A2D5927C3E02300252FA0 /* UIView+Extension.swift */,
 				015A2D5A27C3E02300252FA0 /* UIViewController+Extension.swift */,
 				015A2D5427C3E02300252FA0 /* Int+Extension.swift */,
-				0143F35127C72CA600955181 /* NotificationName+Extension.swift */,
+				0143F35327C7389E00955181 /* NotificationName+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -203,6 +209,9 @@
 			children = (
 				015A2D6627C3E07900252FA0 /* Network.swift */,
 				015A2D6727C3E07900252FA0 /* Prefix.swift */,
+				0143F35727C749B600955181 /* NetworkError.swift */,
+				0143F35927C749F300955181 /* HttpMethod.swift */,
+				0143F35B27C74A1A00955181 /* GetReponse.swift */,
 			);
 			name = NetworkManager;
 			sourceTree = "<group>";
@@ -337,6 +346,7 @@
 				015A2D6E27C3E08600252FA0 /* RepositoryListVM.swift in Sources */,
 				015A2D6927C3E07900252FA0 /* Prefix.swift in Sources */,
 				015A2D7D27C519D600252FA0 /* SplashVC.swift in Sources */,
+				0143F35827C749B600955181 /* NetworkError.swift in Sources */,
 				015A2D4F27C3DFD700252FA0 /* UserInfo.swift in Sources */,
 				015A2D5127C3DFD700252FA0 /* RepositoryFullNames.swift in Sources */,
 				015A2D7227C3E09500252FA0 /* ProfileVM.swift in Sources */,
@@ -345,9 +355,7 @@
 				015A2D6527C3E02400252FA0 /* UIApplication+Extension.swift in Sources */,
 				015A2D6127C3E02400252FA0 /* UILabel+Extension.swift in Sources */,
 				015A2D5027C3DFD700252FA0 /* Repository.swift in Sources */,
-				015A2D7F27C5E81300252FA0 /* UserInfoView.swift in Sources */,
 				015A2D5E27C3E02300252FA0 /* Array+Extension.swift in Sources */,
-				0143F35227C72CA600955181 /* NotificationName+Extension.swift in Sources */,
 				015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */,
 				015A2D6427C3E02400252FA0 /* String+Extension.swift in Sources */,
 				015A2D5327C3DFD700252FA0 /* ErrorMessage.swift in Sources */,
@@ -356,6 +364,10 @@
 				015A2D6827C3E07900252FA0 /* Network.swift in Sources */,
 				015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */,
 				015A2D6327C3E02400252FA0 /* UIViewController+Extension.swift in Sources */,
+				0143F35A27C749F300955181 /* HttpMethod.swift in Sources */,
+				0143F35627C738A900955181 /* UserInfoView.swift in Sources */,
+				0143F35C27C74A1A00955181 /* GetReponse.swift in Sources */,
+				0143F35427C7389E00955181 /* NotificationName+Extension.swift in Sources */,
 				015A2D6227C3E02400252FA0 /* UIView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

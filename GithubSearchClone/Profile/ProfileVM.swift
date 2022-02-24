@@ -158,7 +158,7 @@ class ProfileVM: ProfileVMProtocol {
                 onError: { [weak self] in
                 
                     self?.errMsg.accept(
-                        (($0 as? Network.NetworkError)?.description) ?? ""
+                        (($0 as? NetworkError)?.description) ?? ""
                     )
                     self?.isLoaded.accept(true)
             })

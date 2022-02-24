@@ -18,7 +18,7 @@ extension UIViewController {
                               )
         
         let closeAction = UIAlertAction(
-                            title: "닫기",
+                            title: "확인",
                             style: .default,
                             handler: nil
                           )

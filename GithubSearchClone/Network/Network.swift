@@ -23,31 +23,11 @@ class Network: NetworkProtocol {
     
     static let shared: Network = Network()
     private init() { }
-    
-    enum HttpMethod: String {
-        
-        case get    = "GET"
-        case post   = "POST"
-        case put    = "PUT"
-        case delete = "DELETE"
-    }
-    
-    enum NetworkError: Error {
-        
-        case invalidToken
-        case accessDenied
-        case failed(errCode: Int?, message: String?)
-        case serverNotConnected
-    }
-    
-    struct GetResponse {
-        
-        let isHadNextPage: Bool
-        let data: Data
-    }
 }
 
 extension Network {
+    
+    // MARK: -- Public Method
     
     func requestGet(with endPoint: String,
                     query: [String : Any]?) -> Observable<GetResponse> {
@@ -136,6 +116,8 @@ extension Network {
                  }
     }
     
+    // MARK: -- Private Method
+    
     private func createURLRequest(url: URL,
                                   httpMethod: HttpMethod) -> URLRequest {
         
@@ -180,33 +162,9 @@ extension Network {
     }
 }
 
-extension Network.NetworkError {
-    
-    var description: String {
-        
-        switch self {
-            
-            case .invalidToken:
-                
-                UserInfo.shared.checkAPIToken() // APIToken 초기화
-                return ErrorMessage.requireLogin
-            
-            case .accessDenied:
-            
-                return ErrorMessage.notAllowedPage
-                
-            case .failed(_, _):
-                
-                return ErrorMessage.defaultAPIFailed
-                
-            case .serverNotConnected:
-                
-                return ErrorMessage.defaultAPIServer
-        }
-    }
-}
-
 extension Network {
+    
+    // MARK: -- Log
     
     private func printRequestInfo(_ url: String?, _ method: String?, _ params: [String: Any]?, _ data: Data, _ statusCode: Int) {
         

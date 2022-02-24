@@ -132,8 +132,9 @@ class RepositoryListVM: RepositoryListVMProtocol {
                 onError: { [weak self] in
                     
                     self?.errMsg.accept(
-                        (($0 as? Network.NetworkError)?.description) ?? ""
+                        (($0 as? NetworkError)?.description) ?? ""
                     )
+                    
                     self?.isLoadingFullNameNextPage = false
                 })
             .disposed(by: self.disposeBag)
@@ -195,8 +196,9 @@ class RepositoryListVM: RepositoryListVMProtocol {
                 onError: { [weak self] in
                 
                     self?.errMsg.accept(
-                        (($0 as? Network.NetworkError)?.description) ?? ""
+                        (($0 as? NetworkError)?.description) ?? ""
                     )
+                    
                     self?.isLoaded.accept(true)
             })
             .disposed(by: self.disposeBag)

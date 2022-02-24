@@ -11,6 +11,12 @@ import RxSwift
 
 class SplashVC: UIViewController {
     
+    // MARK: -- Public Properties
+    
+    // MARK: -- Public Method
+    
+    // MARK: -- Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +32,8 @@ class SplashVC: UIViewController {
             }
             .disposed(by: self.disposeBag)
     }
+    
+    // MARK: -- Private Method
     
     private func requestStarRepo() {
         
@@ -60,6 +68,8 @@ class SplashVC: UIViewController {
             })
             .disposed(by: self.disposeBag)
     }
+    
+    // MARK: -- Private Properties
     
     private var repoLoaded = BehaviorSubject<Bool>(value: false)
     private var nextPage: Int? = 1

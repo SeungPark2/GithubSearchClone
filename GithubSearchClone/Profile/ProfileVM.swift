@@ -50,13 +50,12 @@ class ProfileVM: ProfileVMProtocol {
     func refresh() {
         
         guard UserInfo.shared.apiToken != "",
-              !self.isLoadingStarRepoNextPage else {
+              self.isLoaded.value else {
             
             return
         }
         
         self.isLoaded.accept(false)
-        self.isLoadingStarRepoNextPage = true
         self.isHiddenEmptyText.accept(true)
         
         self.user.accept(nil)
@@ -104,7 +103,6 @@ class ProfileVM: ProfileVMProtocol {
                                              nil                    
 
                     self?.isLoaded.accept(true)
-                    self?.isLoadingStarRepoNextPage = false
                     
                 },
                 onError: {
@@ -119,13 +117,12 @@ class ProfileVM: ProfileVMProtocol {
         
         guard UserInfo.shared.apiToken != "",
               let nextPage = self.starRepoNextPage,
-              !self.isLoadingStarRepoNextPage else {
+              self.isLoaded.value else {
             
             return
         }
         
         self.isLoaded.accept(false)
-        self.isLoadingStarRepoNextPage = true
         
         Network.shared.requestGet(with: Root.user + EndPoint.startList,
                                   query: ["per_page": 10,
@@ -157,7 +154,6 @@ class ProfileVM: ProfileVMProtocol {
                     self?.starRepos.accept(repositories)
 
                     self?.isLoaded.accept(true)
-                    self?.isLoadingStarRepoNextPage = false
             },
                 onError: { [weak self] in
                 
@@ -165,7 +161,6 @@ class ProfileVM: ProfileVMProtocol {
                         (($0 as? Network.NetworkError)?.description) ?? ""
                     )
                     self?.isLoaded.accept(true)
-                    self?.isLoadingStarRepoNextPage = false
             })
             .disposed(by: self.disposeBag)
     }
@@ -196,8 +191,8 @@ class ProfileVM: ProfileVMProtocol {
                     self?.starRepos.accept(copyRepos ?? [])
                     self?.isLoaded.accept(true)
                     
-                    isAdded ? UserInfo.shared.addStarRepo(selectedRepo) :
-                              UserInfo.shared.removeStarRepo(selectedRepo)
+                    isAdded ? UserInfo.shared.removeStarRepo(selectedRepo) :
+                              UserInfo.shared.addStarRepo(selectedRepo)
             },
                 onError: { [weak self] _ in
                     
@@ -213,6 +208,5 @@ class ProfileVM: ProfileVMProtocol {
     // MARK: -- Private Properties
     
     private var starRepoNextPage: Int? = 1
-    private var isLoadingStarRepoNextPage: Bool = false
     private let disposeBag = DisposeBag()
 }

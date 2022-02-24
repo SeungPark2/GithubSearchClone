@@ -65,6 +65,13 @@ class RepositoryListVC: UIViewController {
         self.viewModel.refreshRepo()
     }
     
+    @objc
+    private func refreshRepo() {
+        
+        self.viewModel.refreshRepo()
+        self.loadingIndicatorView?.isHidden = true
+    }
+    
     // MARK: -- Private Properties
     
     private lazy var searchController: UISearchController = {
@@ -83,8 +90,16 @@ class RepositoryListVC: UIViewController {
     }()
     
     private let viewModel: RepositoryListVMProtocol = RepositoryListVM()
-    
     private let disposeBag = DisposeBag()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+       
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self,
+                          action: #selector(self.refreshRepo),
+                          for: .valueChanged)
+        return refresh
+    }()
     
     // MARK: -- IBOutlet
     
@@ -114,6 +129,8 @@ extension RepositoryListVC {
                 $0 ? self?.loadingIndicatorView?.stopAnimating() :
                      self?.loadingIndicatorView?.startAnimating()
                      self?.loadingIndicatorView?.isHidden = $0
+                
+                if !$0 { self?.refreshControl.endRefreshing() }
             }
             .disposed(by: self.disposeBag)
         
@@ -175,6 +192,8 @@ extension RepositoryListVC {
     // MARK: -- bindAction
     
     private func bindAction(with viewModel: RepositoryListVMProtocol) {
+        
+        self.repositoryTableView.addSubview(self.refreshControl)
         
         self.loginButton?.rx.tap
             .bind { UserInfo.shared.checkAPIToken() }
@@ -240,33 +259,15 @@ extension RepositoryListVC {
             .disposed(by: self.disposeBag)
         
         self.repositoryTableView.rx.contentOffset
-            .map { [weak self] offset -> ScrollType in
+            .filter { [weak self] offset in
                 
-                guard let `self` = self else { return .none }
-                guard self.repositoryTableView.isDragging else { return .none }
-                
-                if offset.y < -100 {
-                    
-                    return .refresh
-                }
-                
-                if offset.y + self.repositoryTableView.frame.height >=
-                    self.repositoryTableView.contentSize.height + 50 {
-                    
-                    return .moreData
-                }
-                
-                return .none
+                guard let `self` = self else { return false }
+                guard self.repositoryTableView.isDragging else { return false }
+                                
+                return offset.y + self.repositoryTableView.frame.height >=
+                      self.repositoryTableView.contentSize.height + 50
             }
-            .bind { type in
-                
-                switch type {
-                    
-                    case .refresh  : viewModel.refreshRepo()
-                    case .moreData : viewModel.requestRepo()
-                    case .none     : break
-                }
-            }
+            .bind { _ in viewModel.requestRepo() }
             .disposed(by: self.disposeBag)
     }
 }

@@ -72,10 +72,26 @@ class ProfileVC: UIViewController {
                                          self.viewModel.starRepos.value.isEmpty ? false : true
     }
     
+    @objc
+    private func refreshRepo() {
+        
+        self.viewModel.refresh()
+        self.loadingIndicatorView?.isHidden = true
+    }
+    
     // MARK: -- Private Properties
     
     private let viewModel: ProfileVMProtocol = ProfileVM()
     private let disposeBag = DisposeBag()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+       
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self,
+                          action: #selector(self.refreshRepo),
+                          for: .valueChanged)
+        return refresh
+    }()
     
     // MARK: -- IBoutlet
     
@@ -102,6 +118,8 @@ extension ProfileVC {
                 $0 ? self?.loadingIndicatorView?.stopAnimating() :
                      self?.loadingIndicatorView?.startAnimating()
                 self?.loadingIndicatorView?.isHidden = $0
+                
+                if !$0 { self?.refreshControl.endRefreshing() }
             }
             .disposed(by: self.disposeBag)
         
@@ -166,6 +184,8 @@ extension ProfileVC {
     
     private func bindAction(viewModel: ProfileVMProtocol) {
         
+        self.starRepoTableView.addSubview(self.refreshControl)
+        
         self.loginBarButton?.rx.tap
             .bind { UserInfo.shared.checkAPIToken() }
             .disposed(by: self.disposeBag)
@@ -175,33 +195,15 @@ extension ProfileVC {
             .disposed(by: self.disposeBag)
         
         self.starRepoTableView.rx.contentOffset
-            .map { [weak self] offset -> ScrollType in
+            .filter { [weak self] offset in
                 
-                guard let `self` = self else { return .none }
-                guard self.starRepoTableView.isDragging else { return .none }
+                guard let `self` = self else { return false }
+                guard self.starRepoTableView.isDragging else { return false }
                 
-                if offset.y < -100 {
-                    
-                    return .refresh
-                }
-                
-                if offset.y + self.starRepoTableView.frame.height >=
-                   self.starRepoTableView.contentSize.height + 50 {
-                    
-                    return .moreData
-                }
-                
-                return .none
+                return offset.y + self.starRepoTableView.frame.height >=
+                       self.starRepoTableView.contentSize.height + 50
             }
-            .bind { type in
-                
-                switch type {
-                    
-                    case .refresh  : viewModel.refresh()
-                    case .moreData : viewModel.requestStarRepo()
-                    case .none     : break
-                }
-            }
+            .bind { _ in viewModel.requestStarRepo() }
             .disposed(by: self.disposeBag)
     }
 }

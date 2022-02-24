@@ -142,14 +142,13 @@ class RepositoryListVM: RepositoryListVMProtocol {
     func requestRepo() {
         
         guard let nextPage = self.repoNextPage,
-              !self.isLoadingRepoNextPage,
+              self.isLoaded.value,
               self.searchWord != "" else {
             
             return
         }
         
         self.isLoaded.accept(false)
-        self.isLoadingRepoNextPage = true
         
         Network.shared.requestGet(
             with: Root.search + EndPoint.repositories,
@@ -192,7 +191,6 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     }
 
                     self?.isLoaded.accept(true)
-                    self?.isLoadingRepoNextPage = false
             },
                 onError: { [weak self] in
                 
@@ -200,7 +198,6 @@ class RepositoryListVM: RepositoryListVMProtocol {
                         (($0 as? Network.NetworkError)?.description) ?? ""
                     )
                     self?.isLoaded.accept(true)
-                    self?.isLoadingRepoNextPage = false
             })
             .disposed(by: self.disposeBag)
     }
@@ -237,8 +234,8 @@ class RepositoryListVM: RepositoryListVMProtocol {
                     self?.repositories.accept(copyRepos ?? [])
                     self?.isLoaded.accept(true)
                     
-                    isAdded ? UserInfo.shared.addStarRepo(selectedRepo) :
-                              UserInfo.shared.removeStarRepo(selectedRepo)
+                    isAdded ? UserInfo.shared.removeStarRepo(selectedRepo) :
+                              UserInfo.shared.addStarRepo(selectedRepo)
             },
                 onError: { [weak self] _ in
                     
@@ -256,7 +253,6 @@ class RepositoryListVM: RepositoryListVMProtocol {
     private var searchWord: String = ""
     private var repoNextPage: Int? = 1
     private var fullNameNextPage: Int? = 1
-    private var isLoadingRepoNextPage: Bool = false
     private var isLoadingFullNameNextPage: Bool = false
     
     private let disposeBag = DisposeBag()

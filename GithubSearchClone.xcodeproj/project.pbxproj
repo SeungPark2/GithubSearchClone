@@ -36,7 +36,6 @@
 		015A2D7327C3E09500252FA0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7127C3E09500252FA0 /* ProfileVC.swift */; };
 		015A2D7D27C519D600252FA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7C27C519D600252FA0 /* SplashVC.swift */; };
 		015A2D7F27C5E81300252FA0 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7E27C5E81300252FA0 /* UserInfoView.swift */; };
-		015A2D8327C6680900252FA0 /* ScrollType+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D8227C6680800252FA0 /* ScrollType+Enum.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,7 +71,6 @@
 		015A2D7127C3E09500252FA0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Profile/ProfileVC.swift; sourceTree = "<group>"; };
 		015A2D7C27C519D600252FA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		015A2D7E27C5E81300252FA0 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
-		015A2D8227C6680800252FA0 /* ScrollType+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollType+Enum.swift"; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 				015A2D5927C3E02300252FA0 /* UIView+Extension.swift */,
 				015A2D5A27C3E02300252FA0 /* UIViewController+Extension.swift */,
 				015A2D5427C3E02300252FA0 /* Int+Extension.swift */,
-				015A2D8227C6680800252FA0 /* ScrollType+Enum.swift */,
 				0143F35127C72CA600955181 /* NotificationName+Extension.swift */,
 			);
 			name = Extension;
@@ -346,7 +343,6 @@
 				015A2D6027C3E02400252FA0 /* UIColor+Extension.swift in Sources */,
 				015A2D5F27C3E02400252FA0 /* UIButton+Extension.swift in Sources */,
 				015A2D6527C3E02400252FA0 /* UIApplication+Extension.swift in Sources */,
-				015A2D8327C6680900252FA0 /* ScrollType+Enum.swift in Sources */,
 				015A2D6127C3E02400252FA0 /* UILabel+Extension.swift in Sources */,
 				015A2D5027C3DFD700252FA0 /* Repository.swift in Sources */,
 				015A2D7F27C5E81300252FA0 /* UserInfoView.swift in Sources */,

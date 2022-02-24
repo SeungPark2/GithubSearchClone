@@ -32,6 +32,6 @@ Github 앱 만들기
 ![사진](./image/login.png)
 
 * * *
-<img src="/image/structure.png" width="0%" height="50%"></img> <img src="/image/cell.png"></img> 
+<img src="/image/structure.png" width="50%" height="50%"></img> <img src="/image/cell.png"></img> 
 ![사진](./image/network.png)
 ![사진](./image/userinfo.png)

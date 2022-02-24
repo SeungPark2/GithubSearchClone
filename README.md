@@ -28,7 +28,7 @@ Github 앱 만들기
 
 
 ## SCREEN
-![사진](./image/notLogin.png)
+![사진](./image/notlogin.png)
 ![사진](./image/login.png)
 
 * * *

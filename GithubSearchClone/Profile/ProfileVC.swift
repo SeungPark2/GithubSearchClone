@@ -55,28 +55,16 @@ class ProfileVC: UIViewController {
                                      UIImage(named: "login") :
                                      UIImage(named: "logout")
         
-        self.loginGuideLabel?.isHidden = UserInfo.shared.apiToken != ""
         self.loginButton?.isHidden     = UserInfo.shared.apiToken != ""
         
         self.starRepoTableView?.isHidden = UserInfo.shared.apiToken == ""
-    }
-    
-    private func updateLoginGuideTitle(with repos: [Repository]?) {
         
-        if UserInfo.shared.apiToken == "" {
-            
-            self.loginGuideLabel?.text = ErrorMessage.login
-            return
-        }
+        self.loginGuideLabel?.text = UserInfo.shared.apiToken == "" ?
+                                     ErrorMessage.login :
+                                     ErrorMessage.registerInterestRepo
         
-        if repos == nil || repos?.count == 0 {
-            
-            self.loginGuideLabel?.text = ErrorMessage.registerInterestRepo
-            self.loginGuideLabel?.isHidden = false
-            return
-        }
-        
-        self.loginGuideLabel?.isHidden = true
+        self.loginGuideLabel?.isHidden = UserInfo.shared.apiToken == "" ? false :
+                                         self.viewModel.starRepos.value.isEmpty ? false : true
     }
     
     // MARK: -- Private Properties
@@ -117,6 +105,10 @@ extension ProfileVC {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 
+                if !$0 {
+                    
+                    self?.loginGuideLabel?.text = ErrorMessage.registerInterestRepo
+                }
                 self?.loginGuideLabel?.isHidden = $0
             }
             .disposed(by: self.disposeBag)
@@ -131,26 +123,21 @@ extension ProfileVC {
             .disposed(by: self.disposeBag)
         
         viewModel.user
-            .filter { [weak self] in
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] user in
                 
-                if $0 == nil {
+                guard let user = user else {
                     
                     self?.starRepoTableView.tableHeaderView = nil
-                    return false
+                    return
                 }
-                
-                return true
-            }
-            .map { $0! }
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
                 
                 let userInfoView = UserInfoView(
                                     frame: CGRect(
                                             x: 0, y: 0,
                                             width: self?.view.bounds.width ?? 0,
                                             height: 120),
-                                    user: $0
+                                    user: user
                                    )
                 self?.starRepoTableView.tableHeaderView = userInfoView
             }
@@ -194,7 +181,7 @@ extension ProfileVC {
                 }
                 
                 if offset.y + self.starRepoTableView.frame.height >=
-                        self.starRepoTableView.contentSize.height + 50 {
+                   self.starRepoTableView.contentSize.height + 50 {
                     
                     return .moreData
                 }
@@ -205,7 +192,7 @@ extension ProfileVC {
                 
                 switch type {
                     
-                    case .refresh  :  viewModel.refresh()
+                    case .refresh  : viewModel.refresh()
                     case .moreData : viewModel.requestStarRepo()
                     case .none     : break
                 }

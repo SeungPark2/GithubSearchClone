@@ -173,7 +173,7 @@ extension RepositoryListVC {
             .distinctUntilChanged()
             .map { $0 ?? "" }
             .filter { $0 != "" && !viewModel.isHiddenFullNames.value }
-            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
             .bind { viewModel.typingWords(with: $0) }
             .disposed(by: self.disposeBag)
         
@@ -265,6 +265,12 @@ extension RepositoryListVC {
 extension RepositoryListVC: RepoStarDelegate {
     
     func didTapStar(with index: Int) {
+        
+        if UserInfo.shared.apiToken == "" {
+            
+            showAlert(content: ErrorMessage.login)
+            return
+        }
         
         self.viewModel.requestChangeStar(with: index)
     }

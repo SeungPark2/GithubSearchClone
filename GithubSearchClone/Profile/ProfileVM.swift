@@ -97,12 +97,11 @@ class ProfileVM: ProfileVMProtocol {
 
                     self?.starRepos.accept(repositories)
                     
-                    self?.isHiddenEmptyText.accept(repositories.isEmpty)                    
+                    self?.isHiddenEmptyText.accept(!repositories.isEmpty)
                     
-                    if repos.isHadNextPage {
-                        
-                        self?.starRepoNextPage = (self?.starRepoNextPage ?? 0) + 1
-                    }
+                    self?.starRepoNextPage = repos.isHadNextPage ?
+                                             (self?.starRepoNextPage ?? 0) + 1 :
+                                             nil                    
 
                     self?.isLoaded.accept(true)
                     self?.isLoadingStarRepoNextPage = false

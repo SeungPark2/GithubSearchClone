@@ -58,11 +58,13 @@ struct Owner: Codable {
     
     var name: String
     let id: Int?
+    var imageURL: String
     
     enum CodingKeys: String, CodingKey {
         
         case name = "login"
         case id
+        case imageURL = "avatar_url"
     }
     
     init(from decoder: Decoder) throws {
@@ -71,6 +73,7 @@ struct Owner: Codable {
         
         self.name = (try? container.decode(String.self, forKey: .name)) ?? ""
         self.id = try? container.decode(Int.self, forKey: .id)
+        self.imageURL = (try? container.decode(String.self, forKey: .imageURL)) ?? ""
     }
 }
 

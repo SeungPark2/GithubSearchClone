@@ -96,6 +96,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0143F35027C7244C00955181 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				015A2D7E27C5E81300252FA0 /* UserInfoView.swift */,
+			);
+			name = CustomView;
+			sourceTree = "<group>";
+		};
 		015A2CDF27BF863E00252FA0 = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +127,7 @@
 			children = (
 				015A2CFF27BF877400252FA0 /* Model */,
 				015A2D0227BF879500252FA0 /* Extension */,
+				0143F35027C7244C00955181 /* CustomView */,
 				015A2D0E27BF8F8800252FA0 /* NetworkManager */,
 				015A2D0627BF87C500252FA0 /* Repository */,
 				015A2D0727BF87D500252FA0 /* Profile */,
@@ -126,7 +135,6 @@
 				015A2CED27BF863E00252FA0 /* SceneDelegate.swift */,
 				015A2CEB27BF863E00252FA0 /* AppDelegate.swift */,
 				015A2D7C27C519D600252FA0 /* SplashVC.swift */,
-				015A2D7E27C5E81300252FA0 /* UserInfoView.swift */,
 				015A2CF427BF864000252FA0 /* Assets.xcassets */,
 				015A2CF927BF864000252FA0 /* Info.plist */,
 			);

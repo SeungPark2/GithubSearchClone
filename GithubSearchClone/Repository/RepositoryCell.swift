@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 protocol RepoStarDelegate: AnyObject {
     
     func didTapStar(with index: Int)
@@ -23,6 +25,8 @@ class RepositoryCell: UITableViewCell {
     // MARK: -- Public Method
     
     func updateUI(repository: Repository, index: Int) {
+        
+        self.downloadImage(with: repository.owner.imageURL)
         
         self.repoNameAndOwnerLabel?.text = "\(repository.owner.name)/" +
                                            "\(repository.name)"
@@ -66,11 +70,27 @@ class RepositoryCell: UITableViewCell {
         self.repoStarDelegate?.didTapStar(with: index)
     }
     
+    private func downloadImage(with imageURL: String) {
+        
+        KF.url(URL(string: imageURL))
+          .loadDiskFileSynchronously()
+          .cacheMemoryOnly()
+          .fade(duration: 0.25)
+          .roundCorner(radius: .widthFraction(20))
+          .onFailure { [weak self] error in
+              
+              self?.ownerProfileImageView?.image = UIImage(systemName: "book.closed.fill")
+          }
+          .set(to: self.ownerProfileImageView ?? UIImageView())
+    }
+    
     // MARK: -- Private Properties
     
     private var index: Int? = nil
     
     // MARK: -- IBOutlet
+    
+    @IBOutlet private weak var ownerProfileImageView: UIImageView?
     
     @IBOutlet private weak var repoNameAndOwnerLabel: UILabel?
     @IBOutlet private weak var repoIntroLabel: UILabel?

@@ -131,7 +131,7 @@ extension RepositoryListVC {
                      self?.loadingIndicatorView?.startAnimating()
                      self?.loadingIndicatorView?.isHidden = $0
                 
-                if !$0 { self?.refreshControl.endRefreshing() }
+                if $0 { self?.refreshControl.endRefreshing() }
             }
             .disposed(by: self.disposeBag)
         

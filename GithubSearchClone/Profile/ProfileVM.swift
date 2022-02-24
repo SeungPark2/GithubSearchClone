@@ -37,14 +37,6 @@ class ProfileVM: ProfileVMProtocol {
     
     var isHiddenEmptyText = BehaviorRelay<Bool>(value: true)
     
-    init() {
-        
-        if UserInfo.shared.apiToken != "" {
-            
-            self.refresh()
-        }
-    }
-    
     // MARK: -- Public Method
     
     func refresh() {

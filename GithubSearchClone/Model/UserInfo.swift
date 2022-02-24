@@ -57,26 +57,17 @@ class UserInfo {
         }
     }
     
-    // MARK: -- Private Method
-    
-    private func logout() {
-        
-        self._apiToken = nil
-        UserDefaults.standard.setValue(nil,
-                                       forKey: self.apiTokenKey)
-        self.starRepos.removeAll()
-    }
-    
     func requestAPIToken(code: String) {
         
         Network.shared.requestBody(serverURL: Server.github,
                                    with: Root.login +
                                          Root.oauth +
                                          EndPoint.accessToken,
-                                   params: ["client_id": "3669b2d1f5122ce49bbe",
-                                            "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
+                                   params: ["client_id": "",
+                                            "client_secret": "",
                                             "code": code],
                                    httpMethod: .post)
+            .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] data in
                     
@@ -88,24 +79,27 @@ class UserInfo {
                     UserDefaults.standard.setValue(self?._apiToken,
                                                    forKey: self?.apiTokenKey ?? "")
                     
-                    DispatchQueue.main.async {
-                    
-                        let vc = UIApplication.topViewController()
-                        
-                        NotificationCenter.default.post(name: .changeLogin,
-                                                        object: nil)
-                        vc?.showSplashVC()
-                    }
+                    let vc = UIApplication.topViewController()
+                                                          
+                    vc?.showSplashVC()
                 },
                 onError: {
                     
                     print($0.localizedDescription)
-                    DispatchQueue.main.async {
-                        
-                        UIApplication.topViewController()?.showAlert(content: ErrorMessage.failedLogin)
-                    }
+                    UIApplication.topViewController()?
+                        .showAlert(content: ErrorMessage.failedLogin)
                 })
             .disposed(by: self.disposeBag)
+    }
+    
+    // MARK: -- Private Method
+    
+    private func logout() {
+        
+        self._apiToken = nil
+        UserDefaults.standard.setValue(nil,
+                                       forKey: self.apiTokenKey)
+        self.starRepos.removeAll()
     }
     
     private func requestGithubCode() {
@@ -115,7 +109,7 @@ class UserInfo {
         let urlString = Server.github +
                         Root.login +
                         Root.oauth +
-                        EndPoint.authorize + "?client_id=\("3669b2d1f5122ce49bbe")&scope=\(scope)"
+                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
         
         if let url = URL(string: urlString),
            UIApplication.shared.canOpenURL(url) {

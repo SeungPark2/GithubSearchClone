@@ -29,7 +29,7 @@ class ProfileVC: UIViewController {
         
         self.loginButton?.cornerRound(radius: 4)
         self.updateUIWhenChangeLogin()
-    }
+    }    
     
     // MARK: -- Private Method
     
@@ -47,14 +47,18 @@ class ProfileVC: UIViewController {
     
     private func addNotification() {
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.updateUIWhenChangeLogin),
-                                               name: .changeLogin,
-                                               object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(self.updateUIWhenChangeLogin),
+                         name: .changeLogin,
+                         object: nil)
     }
     
     @objc
     private func updateUIWhenChangeLogin() {
+        
+        self.viewModel.refresh()
         
         self.loginBarButton?.image = UserInfo.shared.apiToken == "" ?
                                      UIImage(named: "login") :
@@ -68,8 +72,7 @@ class ProfileVC: UIViewController {
                                      ErrorMessage.login :
                                      ErrorMessage.registerInterestRepo
         
-        self.loginGuideLabel?.isHidden = UserInfo.shared.apiToken == "" ? false :
-                                         self.viewModel.starRepos.value.isEmpty ? false : true
+        self.loginGuideLabel?.isHidden = UserInfo.shared.apiToken != ""
     }
     
     @objc
@@ -119,7 +122,7 @@ extension ProfileVC {
                      self?.loadingIndicatorView?.startAnimating()
                 self?.loadingIndicatorView?.isHidden = $0
                 
-                if !$0 { self?.refreshControl.endRefreshing() }
+                if $0 { self?.refreshControl.endRefreshing() }
             }
             .disposed(by: self.disposeBag)
         
@@ -128,10 +131,6 @@ extension ProfileVC {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 
-                if !$0 {
-                    
-                    self?.loginGuideLabel?.text = ErrorMessage.registerInterestRepo
-                }
                 self?.loginGuideLabel?.isHidden = $0
             }
             .disposed(by: self.disposeBag)

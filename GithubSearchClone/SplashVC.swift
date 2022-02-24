@@ -29,6 +29,8 @@ class SplashVC: UIViewController {
                 
                 self?.dismiss(animated: true,
                               completion: nil)
+                NotificationCenter.default.post(name: .changeLogin,
+                                                object: nil)
             }
             .disposed(by: self.disposeBag)
     }

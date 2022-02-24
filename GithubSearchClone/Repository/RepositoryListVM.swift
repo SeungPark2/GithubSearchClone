@@ -79,6 +79,12 @@ class RepositoryListVM: RepositoryListVMProtocol {
     
     func refreshRepo() {
         
+        if self.searchWord == "" {
+            
+            self.isLoaded.accept(true)
+            return
+        }
+        
         self.repoNextPage = 1
         self.requestRepo()
     }

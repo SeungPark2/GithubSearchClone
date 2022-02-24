@@ -37,7 +37,8 @@ class UserInfo {
         }
         
         self.logout()
-        UIApplication.topViewController()?.viewWillAppear(true)
+        NotificationCenter.default.post(name: .changeLogin,
+                                        object: nil)
     }
     
     func addStarRepo(_ repo: Repository) {
@@ -91,7 +92,8 @@ class UserInfo {
                     
                         let vc = UIApplication.topViewController()
                         
-                        vc?.viewWillAppear(true)
+                        NotificationCenter.default.post(name: .changeLogin,
+                                                        object: nil)
                         vc?.showSplashVC()
                     }
                 },

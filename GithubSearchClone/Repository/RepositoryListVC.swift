@@ -27,15 +27,10 @@ class RepositoryListVC: UIViewController {
         }
         
         self.naviAndTabbar()
+        self.addNotification()
         
         self.bindState(with: self.viewModel)
         self.bindAction(with: self.viewModel)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.updateUI()
     }
     
     // MARK: -- Private Method
@@ -49,14 +44,25 @@ class RepositoryListVC: UIViewController {
         
         self.tabBarController?.tabBar.isTranslucent = true
         self.tabBarController?.tabBar.backgroundImage = UIImage()
-        self.tabBarController?.tabBar.shadowImage = UIImage()                
+        self.tabBarController?.tabBar.shadowImage = UIImage()
     }
     
-    private func updateUI() {
+    private func addNotification() {
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.updateUIWhenChangeLogin),
+                                               name: .changeLogin,
+                                               object: nil)
+    }
+    
+    @objc
+    private func updateUIWhenChangeLogin() {
         
         self.loginButton?.image = UserInfo.shared.apiToken == "" ?
                                   UIImage(named: "login") :
                                   UIImage(named: "logout")
+        
+        self.viewModel.refreshRepo()
     }
     
     // MARK: -- Private Properties
@@ -70,6 +76,7 @@ class RepositoryListVC: UIViewController {
         searchController.searchBar.tintColor = .white
         searchController.searchBar.searchTextField.leftView?.tintColor = .lightGray
         searchController.hidesNavigationBarDuringPresentation = false
+
         self.navigationItem.searchController = searchController
         
         return searchController
@@ -95,6 +102,10 @@ extension RepositoryListVC {
     // MARK: -- bindState
     
     private func bindState(with viewModel: RepositoryListVMProtocol) {
+        
+        self.loginButton?.image = UserInfo.shared.apiToken == "" ?
+                                  UIImage(named: "login") :
+                                  UIImage(named: "logout")
         
         viewModel.isLoaded
             .observe(on: MainScheduler.instance)

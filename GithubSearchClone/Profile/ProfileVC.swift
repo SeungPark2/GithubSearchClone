@@ -22,17 +22,13 @@ class ProfileVC: UIViewController {
         super.viewDidLoad()
         
         self.naviAndTabbar()
+        self.addNotification()
         
         self.bindState(viewModel: self.viewModel)
         self.bindAction(viewModel: self.viewModel)
         
         self.loginButton?.cornerRound(radius: 4)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.updateUI()
+        self.updateUIWhenChangeLogin()
     }
     
     // MARK: -- Private Method
@@ -49,13 +45,22 @@ class ProfileVC: UIViewController {
         self.tabBarController?.tabBar.shadowImage = UIImage()
     }
     
-    private func updateUI() {
+    private func addNotification() {
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.updateUIWhenChangeLogin),
+                                               name: .changeLogin,
+                                               object: nil)
+    }
+    
+    @objc
+    private func updateUIWhenChangeLogin() {
         
         self.loginBarButton?.image = UserInfo.shared.apiToken == "" ?
                                      UIImage(named: "login") :
                                      UIImage(named: "logout")
         
-        self.loginButton?.isHidden     = UserInfo.shared.apiToken != ""
+        self.loginButton?.isHidden = UserInfo.shared.apiToken != ""
         
         self.starRepoTableView?.isHidden = UserInfo.shared.apiToken == ""
         

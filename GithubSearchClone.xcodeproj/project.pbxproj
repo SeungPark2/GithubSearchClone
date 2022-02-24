@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0143F35227C72CA600955181 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35127C72CA600955181 /* NotificationName+Extension.swift */; };
 		015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CEB27BF863E00252FA0 /* AppDelegate.swift */; };
 		015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CED27BF863E00252FA0 /* SceneDelegate.swift */; };
 		015A2CF327BF863E00252FA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 015A2CF127BF863E00252FA0 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0143F35127C72CA600955181 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		015A2CE827BF863E00252FA0 /* GithubSearchClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubSearchClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		015A2CEB27BF863E00252FA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		015A2CED27BF863E00252FA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				015A2D5A27C3E02300252FA0 /* UIViewController+Extension.swift */,
 				015A2D5427C3E02300252FA0 /* Int+Extension.swift */,
 				015A2D8227C6680800252FA0 /* ScrollType+Enum.swift */,
+				0143F35127C72CA600955181 /* NotificationName+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				015A2D5027C3DFD700252FA0 /* Repository.swift in Sources */,
 				015A2D7F27C5E81300252FA0 /* UserInfoView.swift in Sources */,
 				015A2D5E27C3E02300252FA0 /* Array+Extension.swift in Sources */,
+				0143F35227C72CA600955181 /* NotificationName+Extension.swift in Sources */,
 				015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */,
 				015A2D6427C3E02400252FA0 /* String+Extension.swift in Sources */,
 				015A2D5327C3DFD700252FA0 /* ErrorMessage.swift in Sources */,

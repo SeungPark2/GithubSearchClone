@@ -124,7 +124,7 @@ class UserInfoView: UIView {
     private lazy var nameLabel: UILabel = {
        
         let label = UILabel()
-                        .withFont(.systemFont(ofSize: 14))
+                        .withFont(.boldSystemFont(ofSize: 18))
                         .withTextColor(.white)
                         .withAlignment(.left)
         

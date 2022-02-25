@@ -264,6 +264,9 @@ extension RepositoryListVC {
                 
                 guard let `self` = self else { return false }
                 guard self.repositoryTableView.isDragging else { return false }
+                
+                self.tabBarController?.setTabBarHidden(offset.y > 30,
+                                                       animated: true)
                                 
                 return offset.y + self.repositoryTableView.frame.height >=
                       self.repositoryTableView.contentSize.height + 50

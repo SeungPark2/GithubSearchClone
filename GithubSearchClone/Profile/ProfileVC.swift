@@ -199,6 +199,9 @@ extension ProfileVC {
                 guard let `self` = self else { return false }
                 guard self.starRepoTableView.isDragging else { return false }
                 
+                self.tabBarController?.setTabBarHidden(offset.y > 30,
+                                                       animated: true)
+                
                 return offset.y + self.starRepoTableView.frame.height >=
                        self.starRepoTableView.contentSize.height + 50
             }

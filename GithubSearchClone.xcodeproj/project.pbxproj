@@ -30,7 +30,6 @@
 		015A2D6227C3E02400252FA0 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D5927C3E02300252FA0 /* UIView+Extension.swift */; };
 		015A2D6327C3E02400252FA0 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D5A27C3E02300252FA0 /* UIViewController+Extension.swift */; };
 		015A2D6427C3E02400252FA0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D5B27C3E02300252FA0 /* String+Extension.swift */; };
-		015A2D6527C3E02400252FA0 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D5C27C3E02300252FA0 /* UIApplication+Extension.swift */; };
 		015A2D6827C3E07900252FA0 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D6627C3E07900252FA0 /* Network.swift */; };
 		015A2D6927C3E07900252FA0 /* Prefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D6727C3E07900252FA0 /* Prefix.swift */; };
 		015A2D6D27C3E08600252FA0 /* RepositoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D6A27C3E08600252FA0 /* RepositoryListVC.swift */; };
@@ -39,6 +38,7 @@
 		015A2D7227C3E09500252FA0 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7027C3E09500252FA0 /* ProfileVM.swift */; };
 		015A2D7327C3E09500252FA0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7127C3E09500252FA0 /* ProfileVC.swift */; };
 		015A2D7D27C519D600252FA0 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2D7C27C519D600252FA0 /* SplashVC.swift */; };
+		016F306F27D751DE00C55694 /* RepositoryListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F306E27D751DE00C55694 /* RepositoryListService.swift */; };
 		01AFE96127C90C2C003DD21B /* UITabbarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFE96027C90C2C003DD21B /* UITabbarController+Extension.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
@@ -69,7 +69,6 @@
 		015A2D5927C3E02300252FA0 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Extension.swift"; path = "Extension/UIView+Extension.swift"; sourceTree = "<group>"; };
 		015A2D5A27C3E02300252FA0 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Extension.swift"; path = "Extension/UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		015A2D5B27C3E02300252FA0 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "Extension/String+Extension.swift"; sourceTree = "<group>"; };
-		015A2D5C27C3E02300252FA0 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIApplication+Extension.swift"; path = "Extension/UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		015A2D6627C3E07900252FA0 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Network.swift; path = Network/Network.swift; sourceTree = "<group>"; };
 		015A2D6727C3E07900252FA0 /* Prefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Prefix.swift; path = Network/Prefix.swift; sourceTree = "<group>"; };
 		015A2D6A27C3E08600252FA0 /* RepositoryListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepositoryListVC.swift; path = Repository/RepositoryListVC.swift; sourceTree = "<group>"; };
@@ -78,6 +77,7 @@
 		015A2D7027C3E09500252FA0 /* ProfileVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVM.swift; path = Profile/ProfileVM.swift; sourceTree = "<group>"; };
 		015A2D7127C3E09500252FA0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Profile/ProfileVC.swift; sourceTree = "<group>"; };
 		015A2D7C27C519D600252FA0 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
+		016F306E27D751DE00C55694 /* RepositoryListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryListService.swift; sourceTree = "<group>"; };
 		01AFE96027C90C2C003DD21B /* UITabbarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabbarController+Extension.swift"; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,7 +166,6 @@
 			children = (
 				015A2D5527C3E02300252FA0 /* Array+Extension.swift */,
 				015A2D5B27C3E02300252FA0 /* String+Extension.swift */,
-				015A2D5C27C3E02300252FA0 /* UIApplication+Extension.swift */,
 				015A2D5627C3E02300252FA0 /* UIButton+Extension.swift */,
 				015A2D5727C3E02300252FA0 /* UIColor+Extension.swift */,
 				015A2D5827C3E02300252FA0 /* UILabel+Extension.swift */,
@@ -193,6 +192,7 @@
 			children = (
 				015A2D6A27C3E08600252FA0 /* RepositoryListVC.swift */,
 				015A2D6B27C3E08600252FA0 /* RepositoryListVM.swift */,
+				016F306E27D751DE00C55694 /* RepositoryListService.swift */,
 				015A2D6C27C3E08600252FA0 /* RepositoryCell.swift */,
 			);
 			name = Repository;
@@ -356,7 +356,6 @@
 				015A2D6027C3E02400252FA0 /* UIColor+Extension.swift in Sources */,
 				01AFE96127C90C2C003DD21B /* UITabbarController+Extension.swift in Sources */,
 				015A2D5F27C3E02400252FA0 /* UIButton+Extension.swift in Sources */,
-				015A2D6527C3E02400252FA0 /* UIApplication+Extension.swift in Sources */,
 				015A2D6127C3E02400252FA0 /* UILabel+Extension.swift in Sources */,
 				015A2D5027C3DFD700252FA0 /* Repository.swift in Sources */,
 				015A2D5E27C3E02300252FA0 /* Array+Extension.swift in Sources */,
@@ -366,6 +365,7 @@
 				015A2D5227C3DFD700252FA0 /* User.swift in Sources */,
 				015A2D6F27C3E08600252FA0 /* RepositoryCell.swift in Sources */,
 				015A2D6827C3E07900252FA0 /* Network.swift in Sources */,
+				016F306F27D751DE00C55694 /* RepositoryListService.swift in Sources */,
 				015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */,
 				015A2D6327C3E02400252FA0 /* UIViewController+Extension.swift in Sources */,
 				0143F35A27C749F300955181 /* HttpMethod.swift in Sources */,

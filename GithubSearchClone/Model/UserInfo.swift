@@ -63,8 +63,8 @@ class UserInfo {
                                    with: Root.login +
                                          Root.oauth +
                                          EndPoint.accessToken,
-                                   params: ["client_id": "",
-                                            "client_secret": "",
+                                   params: ["client_id": "3669b2d1f5122ce49bbe",
+                                            "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
                                             "code": code],
                                    httpMethod: .post)
             .observe(on: MainScheduler.instance)
@@ -79,15 +79,15 @@ class UserInfo {
                     UserDefaults.standard.setValue(self?._apiToken,
                                                    forKey: self?.apiTokenKey ?? "")
                     
-                    let vc = UIApplication.topViewController()
+//                    let vc = UIApplication.topViewController()
                                                           
                     vc?.showSplashVC()
                 },
                 onError: {
                     
                     print($0.localizedDescription)
-                    UIApplication.topViewController()?
-                        .showAlert(content: ErrorMessage.failedLogin)
+//                    UIApplication.topViewController()?
+//                        .showAlert(content: ErrorMessage.failedLogin)
                 })
             .disposed(by: self.disposeBag)
     }
@@ -109,7 +109,7 @@ class UserInfo {
         let urlString = Server.github +
                         Root.login +
                         Root.oauth +
-                        EndPoint.authorize + "?client_id=\("")&scope=\(scope)"
+                        EndPoint.authorize + "?client_id=\("3669b2d1f5122ce49bbe")&scope=\(scope)"
         
         if let url = URL(string: urlString),
            UIApplication.shared.canOpenURL(url) {

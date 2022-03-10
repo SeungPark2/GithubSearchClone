@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SnapKit
 
 class SplashVC: UIViewController {
     
@@ -20,22 +21,41 @@ class SplashVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.requestStarRepo()
+        self.addViews()
+        self.makeViewsConstraints()
+        self.updateUI()
         
-        self.repoLoaded
-            .filter { $0 }
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] _ in
-                
-                self?.dismiss(animated: true,
-                              completion: nil)
-                NotificationCenter.default.post(name: .changeLogin,
-                                                object: nil)
-            }
-            .disposed(by: self.disposeBag)
+        self.bindState()
+        
+        self.requestStarRepo()
     }
     
     // MARK: -- Private Method
+    
+    private func addViews() {
+        
+        self.view.addSubview(self.logoImageView)
+        self.view.addSubview(self.stateLabel)
+    }
+
+    private func makeViewsConstraints() {
+        
+        self.logoImageView.snp.makeConstraints {
+            
+            $0.center.equalToSuperview()
+        }
+        
+        self.stateLabel.snp.makeConstraints {
+            
+            $0.top.equalTo(self.logoImageView.snp.bottom).offset(12)
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    private func updateUI() {
+        
+        self.view.backgroundColor = #colorLiteral(red: 0.2509803922, green: 0.2509803922, blue: 0.2509803922, alpha: 1)
+    }
     
     private func requestStarRepo() {
         
@@ -73,7 +93,35 @@ class SplashVC: UIViewController {
     
     // MARK: -- Private Properties
     
+    private let logoImageView = UIImageView(image: #imageLiteral(resourceName: "icons8-github-100.png"))
+    private lazy var stateLabel: UILabel = {
+       
+        let label = UILabel()
+        label.textColor = .white
+        label.text = "유저정보를 불러오는 중입니다."
+        
+        return label
+    }()
+    
     private var repoLoaded = BehaviorSubject<Bool>(value: false)
     private var nextPage: Int? = 1
     private let disposeBag = DisposeBag()
+}
+
+extension SplashVC {
+    
+    private func bindState() {
+        
+        self.repoLoaded
+            .filter { $0 }
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                
+                self?.dismiss(animated: true,
+                              completion: nil)
+                NotificationCenter.default.post(name: .changeLogin,
+                                                object: nil)
+            }
+            .disposed(by: self.disposeBag)
+    }
 }

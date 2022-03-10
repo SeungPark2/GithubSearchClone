@@ -135,11 +135,7 @@ class RepositoryListVM: RepositoryListVMProtocol {
                                                                                 
                     self?.isLoadingFullNameNextPage = false
             },
-                onError: { [weak self] in
-                    
-                    self?.errMsg.accept(
-                        (($0 as? NetworkError)?.description) ?? ""
-                    )
+                onError: { [weak self] _ in                                        
                     
                     self?.isLoadingFullNameNextPage = false
                 })
@@ -258,10 +254,7 @@ class RepositoryListVM: RepositoryListVMProtocol {
     
     // MARK: -- Private Properties
     
-    private var searchWord: String = ""
-    private var repoNextPage: Int? = 1
-    private var fullNameNextPage: Int? = 1
-    private var isLoadingFullNameNextPage: Bool = false
+    private var searchWord: String = ""    
     
     private let disposeBag = DisposeBag()
 }

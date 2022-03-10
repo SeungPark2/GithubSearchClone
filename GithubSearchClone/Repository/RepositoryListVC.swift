@@ -76,7 +76,7 @@ class RepositoryListVC: UIViewController {
     
     private lazy var searchController: UISearchController = {
         
-        let searchController = UISearchController(searchResultsController: nil)
+        let searchController = UISearchController(searchResultsController: RepositorySearchResultVC())
         searchController.searchBar.placeholder = "저장소명 검색"
         searchController.searchBar.setValue("취소",
                                             forKey: "cancelButtonText")

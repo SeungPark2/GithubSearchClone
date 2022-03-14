@@ -19,7 +19,7 @@ struct Repositories: Codable {
     }
 }
 
-struct Repository: Codable {
+class Repository: Codable {
     
     let id: Int?
     let owner: Owner

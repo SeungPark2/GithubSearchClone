@@ -89,7 +89,7 @@ class RepositoryListVC: UIViewController {
         return searchController
     }()
     
-    private let viewModel: RepositoryListVMProtocol = RepositoryListVM()
+    private let viewModel: RepositoryListVMProtocol = RepositoryListVM(repositoryListService: RepositoryListService())
     private let disposeBag = DisposeBag()
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -144,21 +144,21 @@ extension RepositoryListVC {
             }
             .disposed(by: self.disposeBag)
         
-        viewModel.isHiddenFullNames
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
-                
-                self?.fullNameTableView.isHidden = $0
-            }
-            .disposed(by: self.disposeBag)
-        
-        viewModel.isHiddenEmptyText
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
-                
-                self?.searchEmptyLabel?.isHidden = $0
-            }
-            .disposed(by: self.disposeBag)
+//        viewModel.isHiddenFullNames
+//            .observe(on: MainScheduler.instance)
+//            .bind { [weak self] in
+//
+//                self?.fullNameTableView.isHidden = $0
+//            }
+//            .disposed(by: self.disposeBag)
+//
+//        viewModel.isHiddenEmptyText
+//            .observe(on: MainScheduler.instance)
+//            .bind { [weak self] in
+//
+//                self?.searchEmptyLabel?.isHidden = $0
+//            }
+//            .disposed(by: self.disposeBag)
         
         viewModel.repositories
             .observe(on: MainScheduler.instance)
@@ -203,15 +203,15 @@ extension RepositoryListVC {
         self.searchController.searchBar.rx.text
             .distinctUntilChanged()
             .map { $0 ?? "" }
-            .filter { $0 != "" && !viewModel.isHiddenFullNames.value }
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .filter { $0 != "" }
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
             .bind { viewModel.typingWords(with: $0) }
             .disposed(by: self.disposeBag)
         
-        self.searchController.searchBar.rx.textDidBeginEditing
-            .bind { viewModel.isHiddenEmptyText.accept(true)
-                    viewModel.isHiddenFullNames.accept(false) }
-            .disposed(by: self.disposeBag)
+//        self.searchController.searchBar.rx.textDidBeginEditing
+//            .bind { viewModel.isHiddenEmptyText.accept(true)
+//                    viewModel.isHiddenFullNames.accept(false) }
+//            .disposed(by: self.disposeBag)
         
         self.searchController.searchBar.rx.searchButtonClicked
             .map { [weak self] _ -> String in

@@ -1,5 +1,5 @@
 //
-//  NetworkError.swift
+//  APIError.swift
 //  GithubSearchClone
 //
 //  Created by 박승태 on 2022/02/24.
@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum APIError: Error {
     
+    case invalidURL
     case invalidToken
     case accessDenied
     case failed(errCode: Int?, message: String?)
@@ -27,7 +28,7 @@ enum NetworkError: Error {
             
                 return ErrorMessage.notAllowedPage
                 
-            case .failed(_, _):
+            case .failed(_, _), .invalidURL:
                 
                 return ErrorMessage.defaultAPIFailed
                 
@@ -35,5 +36,31 @@ enum NetworkError: Error {
                 
                 return ErrorMessage.defaultAPIServer
         }
+    }
+}
+
+extension APIError {
+    
+    static func checkError(with statusCode: Int) -> APIError {
+        
+        
+        if 500...599 ~= statusCode {
+            
+            return .serverNotConnected
+        }
+        
+        if statusCode == 401 {
+            
+            return .invalidToken
+        }
+        
+        if statusCode == 403 {
+            
+            return .accessDenied
+        }
+        
+        return .failed(errCode: statusCode,
+                       message: "")
+        
     }
 }

@@ -137,36 +137,17 @@ extension Network {
         
         return request
     }
-    
-    private func checkNetworkError(with statusCode: Int) -> NetworkError {
-        
-        
-        if 500...599 ~= statusCode {
-            
-            return NetworkError.serverNotConnected
-        }
-        
-        if statusCode == 401 {
-            
-            return NetworkError.invalidToken
-        }
-        
-        if statusCode == 403 {
-            
-            return NetworkError.accessDenied
-        }
-        
-        return NetworkError.failed(errCode: statusCode,
-                                   message: "")
-        
-    }
 }
 
 extension Network {
     
     // MARK: -- Log
     
-    private func printRequestInfo(_ url: String?, _ method: String?, _ params: [String: Any]?, _ data: Data, _ statusCode: Int) {
+    static func printRequestInfo(_ url: String?,
+                                  _ method: String?,
+                                  _ params: [String: Any]?,
+                                  _ data: Data,
+                                  _ statusCode: Int) {
         
         var message: String = "\n\n"
         message += "/*————————————————-————————————————-————————————————-"

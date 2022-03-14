@@ -7,12 +7,8 @@
 
 import Foundation
 
-extension Network {
+struct GetResponse {
     
-    struct GetResponse {
-        
-        let isHadNextPage: Bool
-        let data: Data
-    }
-
+    let isHadNextPage: Bool
+    let data: Data
 }

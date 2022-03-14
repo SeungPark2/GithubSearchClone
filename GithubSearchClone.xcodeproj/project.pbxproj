@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		0143F35427C7389E00955181 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35327C7389E00955181 /* NotificationName+Extension.swift */; };
 		0143F35627C738A900955181 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35527C738A900955181 /* UserInfoView.swift */; };
-		0143F35827C749B600955181 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35727C749B600955181 /* NetworkError.swift */; };
-		0143F35A27C749F300955181 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35927C749F300955181 /* HttpMethod.swift */; };
+		0143F35827C749B600955181 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35727C749B600955181 /* APIError.swift */; };
+		0143F35A27C749F300955181 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35927C749F300955181 /* HTTPMethod.swift */; };
 		0143F35C27C74A1A00955181 /* GetReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143F35B27C74A1A00955181 /* GetReponse.swift */; };
 		015A2CEC27BF863E00252FA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CEB27BF863E00252FA0 /* AppDelegate.swift */; };
 		015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A2CED27BF863E00252FA0 /* SceneDelegate.swift */; };
@@ -42,14 +42,15 @@
 		016F307A27DA1BCA00C55694 /* BaseTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F307927DA1BCA00C55694 /* BaseTabbarController.swift */; };
 		016F307C27DA26B800C55694 /* RepositorySearchResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F307B27DA26B800C55694 /* RepositorySearchResultVC.swift */; };
 		01AFE96127C90C2C003DD21B /* UITabbarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFE96027C90C2C003DD21B /* UITabbarController+Extension.swift */; };
+		01FD022B27DF1043001B95EC /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD022A27DF1043001B95EC /* APIRequest.swift */; };
 		19EAAB48162DD96D2821BE1C /* Pods_GithubSearchClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0143F35327C7389E00955181 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NotificationName+Extension.swift"; path = "Extension/NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		0143F35527C738A900955181 /* UserInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInfoView.swift; path = CustomView/UserInfoView.swift; sourceTree = "<group>"; };
-		0143F35727C749B600955181 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		0143F35927C749F300955181 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		0143F35727C749B600955181 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		0143F35927C749F300955181 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		0143F35B27C74A1A00955181 /* GetReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReponse.swift; sourceTree = "<group>"; };
 		015A2CE827BF863E00252FA0 /* GithubSearchClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubSearchClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		015A2CEB27BF863E00252FA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		016F307927DA1BCA00C55694 /* BaseTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabbarController.swift; sourceTree = "<group>"; };
 		016F307B27DA26B800C55694 /* RepositorySearchResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorySearchResultVC.swift; sourceTree = "<group>"; };
 		01AFE96027C90C2C003DD21B /* UITabbarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabbarController+Extension.swift"; sourceTree = "<group>"; };
+		01FD022A27DF1043001B95EC /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		5121312035B0DC229A3D1E12 /* Pods-GithubSearchClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.release.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.release.xcconfig"; sourceTree = "<group>"; };
 		C13988C628607E4069780FDA /* Pods_GithubSearchClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubSearchClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010F8CAD0B7149BD15D0EE8 /* Pods-GithubSearchClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubSearchClone.debug.xcconfig"; path = "Target Support Files/Pods-GithubSearchClone/Pods-GithubSearchClone.debug.xcconfig"; sourceTree = "<group>"; };
@@ -218,8 +220,9 @@
 			children = (
 				015A2D6627C3E07900252FA0 /* Network.swift */,
 				015A2D6727C3E07900252FA0 /* Prefix.swift */,
-				0143F35727C749B600955181 /* NetworkError.swift */,
-				0143F35927C749F300955181 /* HttpMethod.swift */,
+				0143F35727C749B600955181 /* APIError.swift */,
+				0143F35927C749F300955181 /* HTTPMethod.swift */,
+				01FD022A27DF1043001B95EC /* APIRequest.swift */,
 				0143F35B27C74A1A00955181 /* GetReponse.swift */,
 			);
 			name = NetworkManager;
@@ -355,7 +358,8 @@
 				015A2D6E27C3E08600252FA0 /* RepositoryListVM.swift in Sources */,
 				015A2D6927C3E07900252FA0 /* Prefix.swift in Sources */,
 				015A2D7D27C519D600252FA0 /* SplashVC.swift in Sources */,
-				0143F35827C749B600955181 /* NetworkError.swift in Sources */,
+				0143F35827C749B600955181 /* APIError.swift in Sources */,
+				01FD022B27DF1043001B95EC /* APIRequest.swift in Sources */,
 				016F307C27DA26B800C55694 /* RepositorySearchResultVC.swift in Sources */,
 				015A2D4F27C3DFD700252FA0 /* UserInfo.swift in Sources */,
 				015A2D5127C3DFD700252FA0 /* RepositoryFullNames.swift in Sources */,
@@ -376,7 +380,7 @@
 				016F306F27D751DE00C55694 /* RepositoryListService.swift in Sources */,
 				015A2CEE27BF863E00252FA0 /* SceneDelegate.swift in Sources */,
 				015A2D6327C3E02400252FA0 /* UIViewController+Extension.swift in Sources */,
-				0143F35A27C749F300955181 /* HttpMethod.swift in Sources */,
+				0143F35A27C749F300955181 /* HTTPMethod.swift in Sources */,
 				0143F35627C738A900955181 /* UserInfoView.swift in Sources */,
 				0143F35C27C74A1A00955181 /* GetReponse.swift in Sources */,
 				0143F35427C7389E00955181 /* NotificationName+Extension.swift in Sources */,

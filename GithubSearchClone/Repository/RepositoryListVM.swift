@@ -16,11 +16,8 @@ protocol RepositoryListVMProtocol {
     var repositories: BehaviorRelay<[Repository]> { get }
     var fullNames: BehaviorRelay<[FullName]> { get }
     
-    var isHiddenEmptyText: BehaviorRelay<Bool> { get }
-    var isHiddenFullNames: BehaviorRelay<Bool> { get }
-    
     func reset()
-    func search(with fullName: String)
+    func search(with searchWord: String)
     
     func typingWords(with searchWord: String)
     
@@ -34,6 +31,13 @@ protocol RepositoryListVMProtocol {
 
 class RepositoryListVM: RepositoryListVMProtocol {
     
+    private var service: RepositoryListServiceProtocol
+    
+    init(repositoryListService: RepositoryListServiceProtocol) {
+        
+        self.service = repositoryListService
+    }
+    
     // MARK: -- Public Properties
     
     var isLoaded = BehaviorRelay<Bool>(value: true)
@@ -42,37 +46,25 @@ class RepositoryListVM: RepositoryListVMProtocol {
     var repositories = BehaviorRelay<[Repository]>(value: [])
     var fullNames = BehaviorRelay<[FullName]>(value: [])
     
-    var isHiddenEmptyText = BehaviorRelay<Bool>(value: true)
-    var isHiddenFullNames = BehaviorRelay<Bool>(value: true)
-    
     // MARK: -- Public Method
     
     func reset() {
         
-        self.isHiddenFullNames.accept(true)
         self.repositories.accept([])
         self.fullNames.accept([])
-        self.fullNameNextPage = 1
-        self.repoNextPage = 1
         self.searchWord = ""
-        self.isHiddenEmptyText.accept(true)
     }
     
     func typingWords(with searchWord: String) {
         
         self.searchWord = searchWord
-        self.fullNameNextPage = 1
         
         self.requestFullName()
-        self.isHiddenEmptyText.accept(true)
     }
      
     func search(with searchWord: String) {
         
         self.searchWord = searchWord
-        self.repoNextPage = 1
-        self.isHiddenFullNames.accept(true)
-        self.isHiddenEmptyText.accept(true)
         
         self.requestRepo()
     }
@@ -85,66 +77,43 @@ class RepositoryListVM: RepositoryListVMProtocol {
             return
         }
         
-        self.repoNextPage = 1
         self.requestRepo()
     }
     
     func requestFullName() {
         
-        guard let nextPage = self.fullNameNextPage,
-              !self.isLoadingFullNameNextPage else {
+        guard self.service.fullNameNextPage != nil,
+              self.isLoaded.value else {
             
             return
         }
         
-        self.isLoadingFullNameNextPage = true
+        self.isLoaded.accept(false)
         
-        Network.shared.requestGet(
-            with: Root.search + EndPoint.repositories,
-            query: ["q": self.searchWord,
-                    "per_page": 20,
-                    "page": nextPage]
-        )
-            .map { $0.data }
-            .decode(type: RepositoryFullNames.self, decoder: JSONDecoder())
+        self.service.requestFullName(with: self.searchWord)
+            .observe(on: MainScheduler.instance)
             .subscribe(
-                onNext: { [weak self] repository in
-                
-                    var fullNames = repository.fullNames
+                onNext: { [weak self] fullNameList in
                     
-                    if nextPage > 1 {
-                        
-                        fullNames = (self?.fullNames.value ?? []) + repository.fullNames
-                    }
+                    self?.fullNames.accept((self?.fullNames.value ?? []) + fullNameList)
                     
-                    self?.fullNames.accept(fullNames)
+                    self?.isLoaded.accept(true)                    
+                },
+                onError: { [weak self] in
                     
-                    if !(self?.isHiddenFullNames.value ?? true) {
-                        
-                        self?.isHiddenEmptyText.accept(!fullNames.isEmpty)
-                    }
+                    self?.isLoaded.accept(true)
                     
-                    if (repository.totalCount ?? 0) - (30 * nextPage) > 0 {
-                        
-                        self?.fullNameNextPage = nextPage + 1
-                    }
-                    else {
-                        
-                        self?.fullNameNextPage = nil
-                    }
-                                                                                
-                    self?.isLoadingFullNameNextPage = false
-            },
-                onError: { [weak self] _ in                                        
-                    
-                    self?.isLoadingFullNameNextPage = false
-                })
+                    self?.errMsg.accept(
+                        ($0 as? APIError)?.description ?? ""
+                    )
+                }
+            )
             .disposed(by: self.disposeBag)
     }
     
     func requestRepo() {
         
-        guard let nextPage = self.repoNextPage,
+        guard self.service.repoNextPage != nil,
               self.isLoaded.value,
               self.searchWord != "" else {
             
@@ -153,52 +122,27 @@ class RepositoryListVM: RepositoryListVMProtocol {
         
         self.isLoaded.accept(false)
         
-        Network.shared.requestGet(
-            with: Root.search + EndPoint.repositories,
-            query: ["q": self.searchWord,
-                    "per_page": 10,
-                    "page": nextPage]
-        )
-            .map { $0.data }
-            .decode(type: Repositories.self, decoder: JSONDecoder())
+        self.service.requestRepo(with: self.searchWord)
+            .observe(on: MainScheduler.instance)
             .subscribe(
-                onNext: { [weak self] repo in
-                
-                    var repositories = repo.items
+                onNext: { [weak self] repos in
                     
-                    let repoCount: Int = repositories.count
-                    for i in 0..<repoCount {
-                        
-                        if !UserInfo.shared.starRepos.filter({
-                                $0.id == repositories[i].id }).isEmpty {
-                            
-                            repositories[i].isAddedStart = true
-                        }
-                    }
+//                    for repo in repos {
+//
+//                        if UserInfo.shared.starRepos.filter({
+//                            $0.id == repo.id }).isEmpty {
+//
+//                            repo.isAddedStart = true
+//                        }
+//                    }
                     
-                    if nextPage > 1 {
-
-                        repositories = (self?.repositories.value ?? []) + repo.items
-                    }
-
-                    self?.repositories.accept(repositories)
-                    self?.isHiddenEmptyText.accept(!repositories.isEmpty)
-                    
-                    if (repo.totalCount ?? 0) - (10 * nextPage) > 0 {
-                        
-                        self?.repoNextPage = nextPage + 1
-                    }
-                    else {
-                        
-                        self?.repoNextPage = nil
-                    }
-
+                    self?.repositories.accept(repos)
                     self?.isLoaded.accept(true)
             },
                 onError: { [weak self] in
                 
                     self?.errMsg.accept(
-                        (($0 as? NetworkError)?.description) ?? ""
+                        (($0 as? APIError)?.description) ?? ""
                     )
                     
                     self?.isLoaded.accept(true)
@@ -222,31 +166,27 @@ class RepositoryListVM: RepositoryListVMProtocol {
         
         self.isLoaded.accept(false)
         
-        Network.shared.requestBody(with: Root.user +
-                                         EndPoint.startList +
-                                         "/\(selectedRepo.owner.name)/" +
-                                         "\(selectedRepo.name)",
-                                   params: [:],
-                                   httpMethod: isAdded ? .delete : .put)
+        self.service.requestChangeStar(with: selectedRepo)
+            .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] _ in
                     
-                    var copyRepos = self?.repositories.value
-                    
-                    copyRepos?[index].isAddedStart = !isAdded
-                    
-                    self?.repositories.accept(copyRepos ?? [])
-                    self?.isLoaded.accept(true)
+                    selectedRepo.isAddedStart = !isAdded
                     
                     isAdded ? UserInfo.shared.removeStarRepo(selectedRepo) :
                               UserInfo.shared.addStarRepo(selectedRepo)
-            },
-                onError: { [weak self] _ in
                     
-                    self?.errMsg.accept(isAdded ? ErrorMessage.failedAddStar :
-                                                  ErrorMessage.failedRemoveStar)
                     self?.isLoaded.accept(true)
-            })
+                },
+                onError: { [weak self] in
+                    
+                    self?.isLoaded.accept(true)
+                    
+                    self?.errMsg.accept(
+                        ($0 as? APIError)?.description ?? ""
+                    )
+                }
+            )
             .disposed(by: self.disposeBag)
     }
     

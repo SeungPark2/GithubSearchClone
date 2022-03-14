@@ -10,12 +10,12 @@ import Foundation
 struct RepositoryFullNames: Codable {
     
     let totalCount: Int?
-    let fullNames: [FullName]
+    let items: [FullName]
     
     enum CodingKeys: String, CodingKey {
         
         case totalCount = "total_count"
-        case fullNames = "items"
+        case items
     }
 }
 

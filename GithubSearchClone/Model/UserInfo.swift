@@ -59,37 +59,37 @@ class UserInfo {
     
     func requestAPIToken(code: String) {
         
-        Network.shared.requestBody(serverURL: Server.github,
-                                   with: Root.login +
-                                         Root.oauth +
-                                         EndPoint.accessToken,
-                                   params: ["client_id": "3669b2d1f5122ce49bbe",
-                                            "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
-                                            "code": code],
-                                   httpMethod: .post)
-            .observe(on: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] data in
-                    
-                    let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    
-                    print("json \(json ?? [:])")
-                    
-                    self?._apiToken = (json?["access_token"] as? String) ?? ""
-                    UserDefaults.standard.setValue(self?._apiToken,
-                                                   forKey: self?.apiTokenKey ?? "")
-                    
-//                    let vc = UIApplication.topViewController()
-                                                          
-                    vc?.showSplashVC()
-                },
-                onError: {
-                    
-                    print($0.localizedDescription)
-//                    UIApplication.topViewController()?
-//                        .showAlert(content: ErrorMessage.failedLogin)
-                })
-            .disposed(by: self.disposeBag)
+//        Network.shared.requestBody(serverURL: Server.github,
+//                                   with: Root.login +
+//                                         Root.oauth +
+//                                         EndPoint.accessToken,
+//                                   params: ["client_id": "3669b2d1f5122ce49bbe",
+//                                            "client_secret": "d5f08702a7541b2d7e05f5f8ba70ff84a4442277",
+//                                            "code": code],
+//                                   httpMethod: .post)
+//            .observe(on: MainScheduler.instance)
+//            .subscribe(
+//                onNext: { [weak self] data in
+//                    
+//                    let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+//                    
+//                    print("json \(json ?? [:])")
+//                    
+//                    self?._apiToken = (json?["access_token"] as? String) ?? ""
+//                    UserDefaults.standard.setValue(self?._apiToken,
+//                                                   forKey: self?.apiTokenKey ?? "")
+//                    
+////                    let vc = UIApplication.topViewController()
+//                                                          
+//                    vc?.showSplashVC()
+//                },
+//                onError: {
+//                    
+//                    print($0.localizedDescription)
+////                    UIApplication.topViewController()?
+////                        .showAlert(content: ErrorMessage.failedLogin)
+//                })
+//            .disposed(by: self.disposeBag)
     }
     
     // MARK: -- Private Method
